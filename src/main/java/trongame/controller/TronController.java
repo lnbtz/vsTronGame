@@ -5,7 +5,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.util.Duration;
-import trongame.applicationStub.caller.RemoteView;
 import trongame.model.IGameModel;
 import trongame.model.TronModel;
 import trongame.view.IGameView;
@@ -15,7 +14,7 @@ import java.util.*;
 public class TronController implements IGameController, IPublisher {
     int numberOfPlayer = 0;
     List<Integer> listOfPlayers = new ArrayList<>();
-    List<RemoteView> subscribedViews = new ArrayList<>();
+    List<IGameView> subscribedViews = new ArrayList<>();
     TronModel tronModel;
 
     boolean gameOver = false;
@@ -57,11 +56,11 @@ public class TronController implements IGameController, IPublisher {
         // TODO dont change screen via "handleInput" method and make views call changeScreen Functions on Controller?
         switch (screen) {
             case Config.GO_TO_LOBBY:
-                subscribedViews.forEach(RemoteView::showLobbyScreen);
+                subscribedViews.forEach(IGameView::showLobbyScreen);
                 lobbyScreenTimer();
                 break;
             case Config.GO_TO_GAME:
-                subscribedViews.forEach(RemoteView::showGameScreen);
+                subscribedViews.forEach(IGameView::showGameScreen);
                 gameLoop();
                 break;
             case Config.GO_TO_END:
@@ -107,15 +106,25 @@ public class TronController implements IGameController, IPublisher {
 
 
     @Override
-    public void subscribe(int id, IGameView gameView) {
+    public void subscribe(IGameView gameView) {
         // TODO use id as player number
         numberOfPlayer++;
-        listOfPlayers.add(id);
-        subscribedViews.add((RemoteView) gameView);
+        listOfPlayers.add(gameView.getId());
+        subscribedViews.add(gameView);
     }
 
     @Override
     public void setGameModel(IGameModel tronModel) {
         this.tronModel = (TronModel) tronModel;
+    }
+
+    @Override
+    public int getId() {
+        return 0;
+    }
+
+    @Override
+    public void setId(int id) {
+
     }
 }

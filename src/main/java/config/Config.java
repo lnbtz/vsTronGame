@@ -1,11 +1,14 @@
 package config;
 
 public class Config {
+    public static final String IP_ADDRESS_NAME_SERVICE = "192.168.2.133";
     public static int VIEW_ID = 1;
     public static int CONTROLLER_ID = 0;
     public static final int TCP_PORT = 60000;
+    public static final int TCP_PORT_NAME_SERVICE = 60001;
     public static final int UDP_PORT = 61000;
     public static final String MY_IP_ADDRESS = "192.168.2.133";
+
     public static final boolean SERVER = true;
     public static final int WIDTH = 800;
     public static final int HEIGHT = 800;
@@ -24,6 +27,8 @@ public class Config {
     public static final int SQUARE_WIDTH = WIDTH / COLUMNS;
     public static final int SQUARE_HEIGHT = HEIGHT / ROWS;
 
+    public static final int SEND_TCP = 1;
+    public static final int SEND_UDP = 0;
     public static final int LEFT = 1;
     public static final int RIGHT = 2;
     public static final int UP = 3;

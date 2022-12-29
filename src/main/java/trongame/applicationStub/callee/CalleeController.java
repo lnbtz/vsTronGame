@@ -1,10 +1,11 @@
 package trongame.applicationStub.callee;
 
 import com.google.gson.Gson;
-import middleware.clientstub.IClientStub;
+import middleware.ClientStub.IClientStub;
 import trongame.applicationStub.caller.RemoteView;
 import trongame.controller.IGameController;
 import trongame.controller.IPublisher;
+
 
 public class CalleeController implements ICallee {
 
@@ -13,6 +14,7 @@ public class CalleeController implements ICallee {
 
     IClientStub clientStub;
     Gson gson = new Gson();
+    int id;
 
     public CalleeController(IGameController gameController, IPublisher publisher, IClientStub clientStub) {
         this.clientStub = clientStub;
@@ -21,19 +23,26 @@ public class CalleeController implements ICallee {
     }
 
     @Override
-    public void call(int sourceId, String methodId, Object[] data) {
+    public void call(String methodId, String data) {
         if (methodId.equals("subscribe")) {
-            int id = gson.fromJson((String) data[2], Integer.class);
-            publisher.subscribe(id, new RemoteView(clientStub, id));
+            int id = gson.fromJson(data, Integer.class);
+            publisher.subscribe(new RemoteView(clientStub, id));
         } else {
-            int playerNumber = gson.fromJson((String) data[2], Integer.class);
-            int input = gson.fromJson((String) data[3], Integer.class);
+            Object[] parameterArray = gson.fromJson(data, Object[].class);
+            int playerNumber = ((Double) parameterArray[0]).intValue();
+            int input = ((Double) parameterArray[1]).intValue();
             gameController.handleInput(playerNumber, input);
         }
     }
 
     @Override
-    public String getName() {
-        return "controller";
+    public int getId() {
+        return id;
     }
+
+    @Override
+    public void setId(int getId) {
+        this.id = id;
+    }
+
 }

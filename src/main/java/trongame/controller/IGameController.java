@@ -15,4 +15,8 @@ public interface IGameController {
     void deletePlayer(List<Integer> playerPositions);
 
     void gameOver(String draw);
+
+    int getId();
+
+    void setId(int id);
 }

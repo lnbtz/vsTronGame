@@ -1,7 +1,11 @@
 package trongame.applicationStub.callee;
 
-public interface ICallee {
-    void call(int sourceId, String methodId, Object[] data);
+import java.io.IOException;
 
-    String getName();
+public interface ICallee {
+    public void call(String methodName, String data) throws IOException;
+
+    int getId();
+
+    void setId(int getId);
 }

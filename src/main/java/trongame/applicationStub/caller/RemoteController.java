@@ -2,7 +2,7 @@ package trongame.applicationStub.caller;
 
 import com.google.gson.Gson;
 import config.Config;
-import middleware.clientstub.IClientStub;
+import middleware.ClientStub.IClientStub;
 import trongame.controller.IGameController;
 import trongame.controller.IPublisher;
 import trongame.model.IGameModel;
@@ -19,20 +19,20 @@ public class RemoteController implements IGameController, IPublisher {
 
     IClientStub clientStub;
 
+    int id;
     Gson gson = new Gson();
 
     @Override
     public void handleInput(int playerNumber, int input) {
-        Object[] arrayToSend = {"controller", "handleInput", gson.toJson(playerNumber), gson.toJson(input)};
+        Object[] arrayToSend = {playerNumber, input};
         String data = gson.toJson(arrayToSend);
-        clientStub.invoke(Config.CONTROLLER_ID, data, false);
+        clientStub.invoke(Config.CONTROLLER_ID, "handleInput", data, Config.SEND_UDP);
     }
 
     @Override
-    public void subscribe(int id, IGameView gameView) {
-        Object[] arrayToSend = {"publisher", "subscribe", gson.toJson(id)};
-        String data = gson.toJson(arrayToSend);
-        clientStub.invoke(Config.CONTROLLER_ID, data, true);
+    public void subscribe(IGameView iGameView) {
+        String data = gson.toJson(iGameView.getId());
+        clientStub.invoke(Config.CONTROLLER_ID, "subscribe", data, Config.SEND_TCP);
     }
 
 
@@ -54,5 +54,15 @@ public class RemoteController implements IGameController, IPublisher {
     @Override
     public void gameOver(String draw) {
 
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 }

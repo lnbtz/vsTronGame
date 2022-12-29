@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import trongame.controller.IGameController;
-import trongame.controller.TronController;
 import trongame.view.screens.EndScreen;
 import trongame.view.screens.GameScreen;
 import trongame.view.screens.LobbyScreen;
@@ -14,9 +13,8 @@ import trongame.view.screens.StartScreen;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class TronView implements IGameView, ISubscriber {
+public class TronView implements IGameView {
 
     IGameController tronController;
     Stage window;
@@ -80,5 +78,11 @@ public class TronView implements IGameView, ISubscriber {
         Scene scene = new Scene(screen, Config.WIDTH, Config.HEIGHT);
         window.setScene(scene);
         window.show();
+    }
+
+    // TODO
+    @Override
+    public int getId() {
+        return 0;
     }
 }

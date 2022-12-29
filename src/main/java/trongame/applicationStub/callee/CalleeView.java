@@ -3,24 +3,24 @@ package trongame.applicationStub.callee;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 import trongame.view.IGameView;
-import trongame.view.ISubscriber;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.List;
 
-public class CalleeView implements ICallee {
+public class CalleeView implements ICallee, IGameView {
     IGameView tronView;
-    ISubscriber subscriber;
     Gson gson = new Gson();
+    int id;
 
-    public CalleeView(IGameView tronView, ISubscriber subscriber) {
+    public CalleeView(IGameView tronView) {
         this.tronView = tronView;
-        this.subscriber = subscriber;
     }
 
     @Override
-    public void call(int sourceId, String methodId, Object[] data) {
+    public void call(String methodId, String data) {
         for (Method method : tronView.getClass().getMethods()) {
             if (method.getName().equals(methodId)) {
                 invokeMethod(data, method);
@@ -28,10 +28,10 @@ public class CalleeView implements ICallee {
         }
     }
 
-    private void invokeMethod(Object[] data, Method method) {
+    private void invokeMethod(String data, Method method) {
         if (hasParameters(method)) {
             Type parameterType = method.getParameters()[0].getParameterizedType();
-            Object parameter = gson.fromJson((String) data[2], parameterType);
+            Object parameter = gson.fromJson(data, parameterType);
             Platform.runLater(() -> {
                 try {
                     method.invoke(tronView, parameter);
@@ -59,7 +59,47 @@ public class CalleeView implements ICallee {
     }
 
     @Override
-    public String getName() {
-        return "view";
+    public void updateTimer(int time) {
+
+    }
+
+    @Override
+    public void updateGameUI(HashMap<Integer, int[]> playerNumbersAndPositions) {
+
+    }
+
+    @Override
+    public void deletePlayer(List<Integer> positions) {
+
+    }
+
+    @Override
+    public void showStartScreen() {
+
+    }
+
+    @Override
+    public void showEndScreen(String outcome) {
+
+    }
+
+    @Override
+    public void showGameScreen() {
+
+    }
+
+    @Override
+    public void showLobbyScreen() {
+
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 }
