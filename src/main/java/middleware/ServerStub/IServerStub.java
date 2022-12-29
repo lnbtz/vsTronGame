@@ -1,4 +1,4 @@
-package Interfaces;
+package middleware.ServerStub;
 
 import trongame.applicationStub.callee.ICallee;
 

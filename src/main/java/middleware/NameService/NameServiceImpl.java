@@ -1,6 +1,5 @@
 package middleware.NameService;
 
-import Interfaces.INameService;
 import config.Config;
 
 import java.io.*;

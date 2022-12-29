@@ -20,7 +20,7 @@ public class TronView implements IGameView {
     Stage window;
 
     private final GameScreen gameScreen;
-    private final StartScreen startScreen;
+    private StartScreen startScreen;
 
     private final LobbyScreen lobbyScreen;
     private final EndScreen endScreen;
@@ -30,7 +30,7 @@ public class TronView implements IGameView {
         this.tronController = controller;
         this.window = primaryStage;
         window.setTitle("TRON - Light Cycles");
-        this.startScreen = new StartScreen(tronController);
+        this.startScreen = new StartScreen(tronController, this);
         this.lobbyScreen = new LobbyScreen(tronController);
         this.endScreen = new EndScreen(tronController);
         this.gameScreen = new GameScreen(tronController);
@@ -87,10 +87,6 @@ public class TronView implements IGameView {
 
     @Override
     public void setId(int viewId) {
-        this.id = id;
-        this.startScreen.setId(String.valueOf(id));
-        this.lobbyScreen.setId(String.valueOf(id));
-        this.endScreen.setId(String.valueOf(id));
-        this.gameScreen.setId(String.valueOf(id));
+        this.id = viewId;
     }
 }

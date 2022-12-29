@@ -7,15 +7,12 @@ public class Config {
     public static final int TCP_PORT = 60000;
     public static final int TCP_PORT_NAME_SERVICE = 60001;
     public static final int UDP_PORT = 61000;
-    public static final String MY_IP_ADDRESS = "192.168.2.133";
-
-    public static final boolean SERVER = true;
     public static final int WIDTH = 800;
     public static final int HEIGHT = 800;
     public static final int COLUMNS = 80;
     public static final int ROWS = 80;
 
-    public static final int COUNTDOWN_LENGTH = 10;
+    public static final int COUNTDOWN_LENGTH = 20;
 
     public static final int RED = 1;
     public static final int BLUE = 2;
@@ -36,6 +33,7 @@ public class Config {
     public static final int GO_TO_LOBBY = 5;
     public static final int GO_TO_GAME = 6;
     public static final int GO_TO_END = 7;
+    public static final int GO_TO_START_SCREEN = 8;
     public static final int DELAY = 150;
-    public static final int NUMBER_OF_PLAYERS = 6;
+    public static final int NUMBER_OF_PLAYERS = 2;
 }

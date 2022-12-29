@@ -12,10 +12,11 @@ import trongame.view.IGameView;
 import java.util.*;
 
 public class TronController implements IGameController, IPublisher {
-    int numberOfPlayer = 0;
+    int numberOfPlayers = 0;
     List<Integer> listOfPlayers = new ArrayList<>();
     List<IGameView> subscribedViews = new ArrayList<>();
     TronModel tronModel;
+    boolean timerStarted = false;
 
     boolean gameOver = false;
     String outcome;
@@ -24,6 +25,7 @@ public class TronController implements IGameController, IPublisher {
     public void handleInput(int playerNumber, int input) {
         if (input == Config.GO_TO_LOBBY) changeScreen(Config.GO_TO_LOBBY);
         else if (input == Config.GO_TO_GAME) changeScreen(Config.GO_TO_GAME);
+        else if (input == Config.GO_TO_START_SCREEN) changeScreen(Config.GO_TO_START_SCREEN);
         else {
             tronModel.handleSteeringEvent(playerNumber, input);
         }
@@ -66,11 +68,13 @@ public class TronController implements IGameController, IPublisher {
             case Config.GO_TO_END:
                 subscribedViews.forEach(tronView -> tronView.showEndScreen(outcome));
                 break;
+            case Config.GO_TO_START_SCREEN:
+                subscribedViews.forEach(IGameView::showStartScreen);
         }
     }
 
     private void gameLoop() {
-        tronModel.initGame(numberOfPlayer, listOfPlayers);
+        tronModel.initGame(numberOfPlayers, listOfPlayers);
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -88,27 +92,30 @@ public class TronController implements IGameController, IPublisher {
     }
 
     private void lobbyScreenTimer() {
+        if (timerStarted) return;
+        timerStarted = true;
         // TODO make it so that ppl can join while timer is running
         final int[] time = {Config.COUNTDOWN_LENGTH};
-        Timeline fiveSecondsWonder = new Timeline(
+        Timeline timer = new Timeline(
                 new KeyFrame(Duration.seconds(1),
                         event -> {
-                            if (time[0] != 1) {
+                            if (Config.NUMBER_OF_PLAYERS == numberOfPlayers) {
+                                handleInput(Config.VIEW_ID, Config.GO_TO_GAME);
+                            } else if (time[0] != 1) {
                                 time[0]--;
                                 updateTimer(time[0]);
                             } else {
-                                handleInput(Config.VIEW_ID, Config.GO_TO_GAME);
+                                handleInput(Config.VIEW_ID, Config.GO_TO_START_SCREEN);
                             }
                         }));
-        fiveSecondsWonder.setCycleCount(Config.COUNTDOWN_LENGTH);
-        fiveSecondsWonder.play();
+        timer.setCycleCount(Config.COUNTDOWN_LENGTH);
+        timer.play();
     }
 
 
     @Override
     public void subscribe(IGameView gameView) {
-        // TODO use id as player number
-        numberOfPlayer++;
+        numberOfPlayers++;
         listOfPlayers.add(gameView.getId());
         subscribedViews.add(gameView);
     }

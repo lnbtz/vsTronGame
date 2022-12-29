@@ -47,6 +47,11 @@ public class RemoteView implements IGameView {
     }
 
     @Override
+    public void setId(int viewId) {
+
+    }
+
+    @Override
     public void updateTimer(int time) {
         String data = gson.toJson(time);
         clientStub.invoke(id, "updateTimer", data, Config.SEND_TCP);

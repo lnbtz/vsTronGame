@@ -27,7 +27,7 @@ public class CalleeController implements ICallee {
         if (methodId.equals("subscribe")) {
             int id = gson.fromJson(data, Integer.class);
             publisher.subscribe(new RemoteView(clientStub, id));
-        } else {
+        } else if(methodId.equals("handleInput")){
             Object[] parameterArray = gson.fromJson(data, Object[].class);
             int playerNumber = ((Double) parameterArray[0]).intValue();
             int input = ((Double) parameterArray[1]).intValue();
