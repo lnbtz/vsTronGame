@@ -24,7 +24,7 @@ public class TronView implements IGameView {
 
     private final LobbyScreen lobbyScreen;
     private final EndScreen endScreen;
-
+    int id;
 
     public TronView(Stage primaryStage, IGameController controller) throws IOException {
         this.tronController = controller;
@@ -65,12 +65,12 @@ public class TronView implements IGameView {
     }
 
     @Override
-    public void updateTimer(int time){
+    public void updateTimer(int time) {
         lobbyScreen.updateTimer(time);
     }
 
     @Override
-    public void deletePlayer(List<Integer> positions){
+    public void deletePlayer(List<Integer> positions) {
         gameScreen.deletePlayer(positions);
     }
 
@@ -80,9 +80,17 @@ public class TronView implements IGameView {
         window.show();
     }
 
-    // TODO
     @Override
     public int getId() {
-        return 0;
+        return id;
+    }
+
+    @Override
+    public void setId(int viewId) {
+        this.id = id;
+        this.startScreen.setId(String.valueOf(id));
+        this.lobbyScreen.setId(String.valueOf(id));
+        this.endScreen.setId(String.valueOf(id));
+        this.gameScreen.setId(String.valueOf(id));
     }
 }

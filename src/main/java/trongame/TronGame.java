@@ -55,19 +55,52 @@ public class TronGame {
     }
 
     public void startClientGame(Stage stage) throws IOException {
-//        nameServerHelper = new NameServerHelper();
-//        clientStub = new ClientStub(nameServerHelper);
-//        serverStub = new ServerStub(nameServerHelper);
-//
-//        remoteController = new RemoteController(clientStub);
-//
-//        tronView = new TronView(stage, remoteController);
-//        subscriber = (ISubscriber) tronView;
-//
-//        calleeView = new CalleeView(tronView, subscriber);
-//
-//        serverStub.register(calleeView, "view");
-//        ((IPublisher) remoteController).subscribe(null);
+        // start middleware
+        NameServiceImpl nameServiceImpl = new NameServiceImpl();
+        nameServiceImpl.start();
+        NameServiceHelper nameServiceHelper = new NameServiceHelper();
+
+
+        //Queues Startup
+        SendQueue sendQueue = new SendQueue();
+        RecieveQueue recieveQueue = new RecieveQueue();
+
+
+        //Send/Recieve Threads
+        TcpSendThread tcpSendThread = new TcpSendThread(sendQueue);
+        tcpSendThread.start();
+        TcpRecieveThread tcpRecieveThread = new TcpRecieveThread(recieveQueue);
+        tcpRecieveThread.start();
+
+        //Send/Receive Threads
+        UdpSendThread udpSendThread = new UdpSendThread(sendQueue);
+        udpSendThread.start();
+        UdpRecieveThread udpRecieveThread = new UdpRecieveThread(recieveQueue);
+        udpRecieveThread.start();
+
+        //Stubs
+        ClientStubImpl clientStub = new ClientStubImpl(nameServiceHelper, sendQueue);
+        ServerStubImpl serverStub = new ServerStubImpl(recieveQueue, nameServiceHelper);
+        serverStub.start();
+
+
+        // controller
+        TronController tronController = new TronController();
+        TronModel tronModel = new TronModel(tronController, tronController);
+        tronController.setGameModel(tronModel);
+
+
+        RemoteController remoteController = new RemoteController(clientStub);
+        remoteController.setId(Config.CONTROLLER_ID);
+        TronView tronView = new TronView(stage, remoteController);
+
+
+        CalleeView calleeView = new CalleeView(tronView);
+        int viewId = serverStub.register(1, calleeView);
+        calleeView.setId(viewId);
+        Config.VIEW_ID = viewId;
+
+        ((IPublisher) remoteController).subscribe(calleeView);
     }
 
     public void standAloneWithMiddleware(Stage stage) throws IOException {

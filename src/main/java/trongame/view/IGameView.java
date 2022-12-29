@@ -5,7 +5,6 @@ import java.util.List;
 
 public interface IGameView {
 
-
     void updateTimer(int time);
 
     void updateGameUI(HashMap<Integer, int[]> playerNumbersAndPositions);
@@ -20,4 +19,6 @@ public interface IGameView {
 
     void showLobbyScreen();
     int getId();
+
+    void setId(int viewId);
 }
