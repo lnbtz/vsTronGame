@@ -16,6 +16,7 @@ public class Config {
     public static final int ROWS = 120;
 
     public static final int COUNTDOWN_LENGTH = 5;
+    public static final int LOBBY_TIMEOUT = 10000;
 
     public static final int RED = 1;
     public static final int BLUE = 2;
@@ -37,5 +38,5 @@ public class Config {
     public static final int GO_TO_GAME = 6;
     public static final int GO_TO_END = 7;
     public static final int DELAY = 50;
-    public static final int NUMBER_OF_PLAYERS = 6;
+    public static final int NUMBER_OF_PLAYERS = 2;
 }

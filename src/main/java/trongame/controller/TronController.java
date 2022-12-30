@@ -159,7 +159,7 @@ public class TronController implements IGameController, IPublisher {
         @Override
         public void run(){
             try {
-                Thread.sleep(2000);
+                Thread.sleep(Config.LOBBY_TIMEOUT);
                 gameController.lobbyScreenTimer();
             } catch (InterruptedException e){
                 System.err.println("Maximum number of players reached");
