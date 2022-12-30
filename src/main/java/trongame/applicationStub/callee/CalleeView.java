@@ -54,12 +54,18 @@ public class CalleeView implements ICallee, IGameView {
         }
     }
 
+
     private static boolean hasParameters(Method method) {
         return method.getParameterTypes().length != 0;
     }
 
     @Override
     public void updateTimer(int time) {
+
+    }
+
+    @Override
+    public void updatePlayercount(int playercount) {
 
     }
 

@@ -8,17 +8,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.layout.Pane;
 import trongame.controller.IGameController;
-import trongame.controller.TronController;
 
 public class LobbyScreen extends Pane {
 
-    Label currentTimer;
+    Label timer;
+    Label currentPlayercount;
 
     IGameController tronController;
     public LobbyScreen(IGameController tronController) {
         this.tronController = tronController;
         this.setHeight(Config.HEIGHT);
         this.setWidth(Config.WIDTH);
+
+        /*
         // timer label
         Label timerLabel = new Label("Waiting...");
         timerLabel.setFont(new Font(30));
@@ -33,13 +35,21 @@ public class LobbyScreen extends Pane {
         vBox.setPrefWidth(Config.WIDTH);
         vBox.getChildren().add(timerLabel);
         this.getChildren().add(vBox);
+         */
 
-        // setup timer
-        currentTimer = new Label(Config.COUNTDOWN_LENGTH + "");
-        currentTimer.setFont(new Font(30));
-        currentTimer.setMinSize(300, 40);
-        currentTimer.setMaxSize(300, 40);
-        currentTimer.setTextFill(Color.RED);
+        // setup Timer
+        timer = new Label("");
+        timer.setFont(new Font(30));
+        timer.setMinSize(500, 40);
+        timer.setMaxSize(500,40);
+        timer.setTextFill(Color.RED);
+
+        // setup plyercount
+        currentPlayercount = new Label("");
+        currentPlayercount.setFont(new Font(30));
+        currentPlayercount.setMinSize(500, 40);
+        currentPlayercount.setMaxSize(500, 40);
+        currentPlayercount.setTextFill(Color.RED);
 
         VBox vBox1 = new VBox();
         vBox1.setSpacing(20);
@@ -48,10 +58,14 @@ public class LobbyScreen extends Pane {
         vBox1.setPrefWidth(Config.WIDTH);
         this.getChildren().add(vBox1);
 
-        vBox1.getChildren().add(currentTimer);
+        vBox1.getChildren().add(timer);
+        vBox1.getChildren().add(currentPlayercount);
     }
 
+    public void updatePlayercount(int playercount){
+        currentPlayercount.setText("Number of players: " + playercount);
+    }
     public void updateTimer(int time){
-        currentTimer.setText("" + time);
+        timer.setText("Game starts in: " + time);
     }
 }

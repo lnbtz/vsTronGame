@@ -1,6 +1,6 @@
 package middleware.ClientStub;
 
-import middleware.INameServiceHelper;
+import Interfaces.INameServiceHelper;
 import org.javatuples.Pair;
 
 import java.io.*;

@@ -99,6 +99,8 @@ public class TronGame {
         int viewId = serverStub.register(1, calleeView);
         calleeView.setId(viewId);
         Config.VIEW_ID = viewId;
+
+        ((IPublisher) remoteController).subscribe(calleeView);
     }
 
     public void standAloneWithMiddleware(Stage stage) throws IOException {
@@ -142,15 +144,15 @@ public class TronGame {
 
 
         RemoteController remoteController = new RemoteController(clientStub);
-        TronView tronView = new TronView(stage, remoteController);
         remoteController.setId(Config.CONTROLLER_ID);
+        TronView tronView = new TronView(stage, remoteController);
+
 
         CalleeView calleeView = new CalleeView(tronView);
         int viewId = serverStub.register(1, calleeView);
-
         calleeView.setId(viewId);
         tronView.setId(viewId);
 
-//        tronView.showStartScreen();
+        //((IPublisher) remoteController).subscribe(calleeView);
     }
 }
