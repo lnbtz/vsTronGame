@@ -23,8 +23,8 @@ public class TronController implements IGameController, IPublisher {
 
     @Override
     public void handleInput(int playerNumber, int input) {
-        if (input == Config.GO_TO_LOBBY) changeScreen(Config.GO_TO_LOBBY);
-        else if (input == Config.GO_TO_GAME) changeScreen(Config.GO_TO_GAME);
+        if (input == Config.GO_TO_LOBBY) changeScreen(Config.GO_TO_LOBBY, playerNumber);
+        else if (input == Config.GO_TO_GAME) changeScreen(Config.GO_TO_GAME, 0);
         else {
             tronModel.handleSteeringEvent(playerNumber, input);
         }
@@ -34,7 +34,7 @@ public class TronController implements IGameController, IPublisher {
     public void gameOver(String outcome) {
         gameOver = true;
         this.outcome = outcome;
-        changeScreen(Config.GO_TO_END);
+        changeScreen(Config.GO_TO_END, 0);
     }
 
 
@@ -56,12 +56,17 @@ public class TronController implements IGameController, IPublisher {
         subscribedViews.forEach(tronView -> tronView.updatePlayercount(numberOfPlayer));
     }
 
-    private void changeScreen(int screen) {
+    private void changeScreen(int screen, int playerId) {
         // TODO how to handle different views clicking start Button?
         // TODO dont change screen via "handleInput" method and make views call changeScreen Functions on Controller?
         switch (screen) {
             case Config.GO_TO_LOBBY:
-                subscribedViews.forEach(IGameView::showLobbyScreen);
+                //subscribedViews.forEach(IGameView::showLobbyScreen);
+                for(IGameView gameView : subscribedViews){
+                    if(gameView.getId() == playerId){
+                        gameView.showLobbyScreen();
+                    }
+                }
                 break;
             case Config.GO_TO_GAME:
                 subscribedViews.forEach(IGameView::showGameScreen);
