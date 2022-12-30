@@ -98,9 +98,10 @@ public class TronGame {
         CalleeView calleeView = new CalleeView(tronView);
         int viewId = serverStub.register(1, calleeView);
         calleeView.setId(viewId);
+        tronView.setId(viewId);
         Config.VIEW_ID = viewId;
 
-        ((IPublisher) remoteController).subscribe(calleeView);
+        //((IPublisher) remoteController).subscribe(calleeView);
     }
 
     public void standAloneWithMiddleware(Stage stage) throws IOException {
