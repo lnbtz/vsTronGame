@@ -62,6 +62,7 @@ public class TronController implements IGameController, IPublisher {
         switch (screen) {
             case Config.GO_TO_LOBBY:
                 //subscribedViews.forEach(IGameView::showLobbyScreen);
+
                 for(IGameView gameView : subscribedViews){
                     if(gameView.getId() == playerId){
                         gameView.showLobbyScreen();
