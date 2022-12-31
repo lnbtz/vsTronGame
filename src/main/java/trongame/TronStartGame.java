@@ -10,7 +10,7 @@ public class TronStartGame extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         TronGame game = new TronGame();
-        game.startClientGame(stage);
+        game.standAloneWithMiddleware(stage);
     }
 
     public static void main(String[] args) {
