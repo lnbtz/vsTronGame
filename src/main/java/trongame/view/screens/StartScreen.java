@@ -8,17 +8,14 @@ import trongame.controller.IPublisher;
 import trongame.controller.TronController;
 import trongame.view.IGameView;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
 public class StartScreen extends Pane {
     IGameController controller;
+    IGameView view;
     private final Button btnStart;
-    IGameView gameView;
 
-    public StartScreen(IGameController controller, IGameView gameView) {
-        this.gameView = gameView;
-        btnStart = new Button("Start Game");
+    public StartScreen(IGameController controller, IGameView view) {
+        this.view = view;
+        btnStart = new Button("PLAY - LETS GO! :D");
         this.setHeight(Config.HEIGHT);
         this.setWidth(Config.WIDTH);
         this.controller = controller;
@@ -27,23 +24,11 @@ public class StartScreen extends Pane {
             btnClickEvent();
         });
         this.getChildren().add(btnStart);
-        Button btnSubscribe = new Button("Subscribe");
-        this.setHeight(Config.HEIGHT);
-        this.setWidth(Config.WIDTH);
-        this.controller = controller;
-        btnSubscribe.relocate(Config.WIDTH / 2 - 60, Config.HEIGHT / 2 - 150);
-        btnSubscribe.setOnAction(click -> {
-            subscribeToGame();
-        });
-        this.getChildren().add(btnSubscribe);
-    }
-
-    private void subscribeToGame() {
-        ((IPublisher) controller).subscribe(gameView);
     }
 
     private void btnClickEvent() {
-        controller.handleInput(Config.VIEW_ID, Config.GO_TO_LOBBY);
+        ((IPublisher) controller).subscribe(view);
+        controller.handleInput(view.getId(), Config.GO_TO_LOBBY);
     }
 }
 

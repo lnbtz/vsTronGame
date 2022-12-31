@@ -12,20 +12,19 @@ import trongame.view.IGameView;
 import java.util.*;
 
 public class TronController implements IGameController, IPublisher {
-    int numberOfPlayers = 0;
+    int numberOfPlayer = 0;
     List<Integer> listOfPlayers = new ArrayList<>();
     List<IGameView> subscribedViews = new ArrayList<>();
     TronModel tronModel;
-    boolean timerStarted = false;
+    LobbyTimer timer;
 
     boolean gameOver = false;
     String outcome;
 
     @Override
     public void handleInput(int playerNumber, int input) {
-        if (input == Config.GO_TO_LOBBY) changeScreen(Config.GO_TO_LOBBY);
-        else if (input == Config.GO_TO_GAME) changeScreen(Config.GO_TO_GAME);
-        else if (input == Config.GO_TO_START_SCREEN) changeScreen(Config.GO_TO_START_SCREEN);
+        if (input == Config.GO_TO_LOBBY) changeScreen(Config.GO_TO_LOBBY, playerNumber);
+        else if (input == Config.GO_TO_GAME) changeScreen(Config.GO_TO_GAME, 0);
         else {
             tronModel.handleSteeringEvent(playerNumber, input);
         }
@@ -35,7 +34,7 @@ public class TronController implements IGameController, IPublisher {
     public void gameOver(String outcome) {
         gameOver = true;
         this.outcome = outcome;
-        changeScreen(Config.GO_TO_END);
+        changeScreen(Config.GO_TO_END, 0);
     }
 
 
@@ -53,13 +52,22 @@ public class TronController implements IGameController, IPublisher {
         subscribedViews.forEach(tronView -> tronView.updateTimer(time));
     }
 
-    private void changeScreen(int screen) {
+    private void updatePlayercount(){
+        subscribedViews.forEach(tronView -> tronView.updatePlayercount(numberOfPlayer));
+    }
+
+    private void changeScreen(int screen, int playerId) {
         // TODO how to handle different views clicking start Button?
         // TODO dont change screen via "handleInput" method and make views call changeScreen Functions on Controller?
         switch (screen) {
             case Config.GO_TO_LOBBY:
-                subscribedViews.forEach(IGameView::showLobbyScreen);
-                lobbyScreenTimer();
+                //subscribedViews.forEach(IGameView::showLobbyScreen);
+
+                for(IGameView gameView : subscribedViews){
+                    if(gameView.getId() == playerId){
+                        gameView.showLobbyScreen();
+                    }
+                }
                 break;
             case Config.GO_TO_GAME:
                 subscribedViews.forEach(IGameView::showGameScreen);
@@ -68,13 +76,21 @@ public class TronController implements IGameController, IPublisher {
             case Config.GO_TO_END:
                 subscribedViews.forEach(tronView -> tronView.showEndScreen(outcome));
                 break;
-            case Config.GO_TO_START_SCREEN:
-                subscribedViews.forEach(IGameView::showStartScreen);
         }
     }
 
     private void gameLoop() {
-        tronModel.initGame(numberOfPlayers, listOfPlayers);
+        tronModel.initGame(numberOfPlayer, listOfPlayers);
+        //Test
+        /*
+        tronModel.updatePlayingField();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+         */
+        //endTest
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -92,32 +108,38 @@ public class TronController implements IGameController, IPublisher {
     }
 
     private void lobbyScreenTimer() {
-        if (timerStarted) return;
-        timerStarted = true;
         // TODO make it so that ppl can join while timer is running
         final int[] time = {Config.COUNTDOWN_LENGTH};
-        Timeline timer = new Timeline(
+        Timeline fiveSecondsWonder = new Timeline(
                 new KeyFrame(Duration.seconds(1),
                         event -> {
-                            if (Config.NUMBER_OF_PLAYERS == numberOfPlayers) {
-                                handleInput(Config.VIEW_ID, Config.GO_TO_GAME);
-                            } else if (time[0] != 1) {
+                            if (time[0] != 1) {
                                 time[0]--;
                                 updateTimer(time[0]);
                             } else {
-                                handleInput(Config.VIEW_ID, Config.GO_TO_START_SCREEN);
+                                handleInput(Config.VIEW_ID, Config.GO_TO_GAME);
                             }
                         }));
-        timer.setCycleCount(Config.COUNTDOWN_LENGTH);
-        timer.play();
+        fiveSecondsWonder.setCycleCount(Config.COUNTDOWN_LENGTH);
+        fiveSecondsWonder.play();
     }
 
 
     @Override
     public void subscribe(IGameView gameView) {
-        numberOfPlayers++;
+        // TODO use id as player number
+        numberOfPlayer++;
         listOfPlayers.add(gameView.getId());
         subscribedViews.add(gameView);
+        updatePlayercount();
+
+        if(numberOfPlayer==1){
+            timer = new LobbyTimer(this);
+            timer.start();
+        } else if(numberOfPlayer==Config.NUMBER_OF_PLAYERS){
+            timer.interrupt();
+            lobbyScreenTimer();
+        }
     }
 
     @Override
@@ -132,6 +154,24 @@ public class TronController implements IGameController, IPublisher {
 
     @Override
     public void setId(int id) {
+
+    }
+
+    private class LobbyTimer extends Thread{
+        TronController gameController;
+        public LobbyTimer(TronController gameController){
+            this.gameController = gameController;
+        }
+        @Override
+        public void run(){
+            try {
+                Thread.sleep(Config.LOBBY_TIMEOUT);
+                gameController.lobbyScreenTimer();
+            } catch (InterruptedException e){
+                System.err.println("Maximum number of players reached");
+            }
+        }
+
 
     }
 }

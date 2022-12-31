@@ -20,7 +20,7 @@ public class TronView implements IGameView {
     Stage window;
 
     private final GameScreen gameScreen;
-    private StartScreen startScreen;
+    private final StartScreen startScreen;
 
     private final LobbyScreen lobbyScreen;
     private final EndScreen endScreen;
@@ -33,7 +33,7 @@ public class TronView implements IGameView {
         this.startScreen = new StartScreen(tronController, this);
         this.lobbyScreen = new LobbyScreen(tronController);
         this.endScreen = new EndScreen(tronController);
-        this.gameScreen = new GameScreen(tronController);
+        this.gameScreen = new GameScreen(tronController, this);
         this.showStartScreen();
     }
 
@@ -70,12 +70,17 @@ public class TronView implements IGameView {
     }
 
     @Override
+    public void updatePlayercount(int playercount) {
+        this.lobbyScreen.updatePlayercount(playercount);
+    }
+
+    @Override
     public void deletePlayer(List<Integer> positions) {
         gameScreen.deletePlayer(positions);
     }
 
     private void showScreen(Pane screen) {
-        Scene scene = new Scene(screen, Config.WIDTH, Config.HEIGHT);
+        Scene scene = new Scene(screen, Config.WIDTH, Config.HEIGHT + 15);
         window.setScene(scene);
         window.show();
     }
@@ -88,5 +93,9 @@ public class TronView implements IGameView {
     @Override
     public void setId(int viewId) {
         this.id = viewId;
+        this.startScreen.setId(String.valueOf(id));
+        this.lobbyScreen.setId(String.valueOf(id));
+        this.endScreen.setId(String.valueOf(id));
+        this.gameScreen.setId(String.valueOf(id));
     }
 }

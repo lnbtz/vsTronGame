@@ -1,6 +1,8 @@
 package trongame.model;
 
 import config.Config;
+import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import trongame.controller.IGameController;
 import trongame.controller.IPublisher;
 
@@ -46,6 +48,7 @@ public class TronModel implements IGameModel {
 
     private void initPlayers() {
         // TODO set Fair Starting Pos
+        /*
         Random rng = new Random();
         int x;
         int y;
@@ -55,6 +58,23 @@ public class TronModel implements IGameModel {
             y = rng.nextInt(Config.ROWS);
             direction = Config.DOWN;
             playerNumberBikePositionDirection.put(listOfPlayers.get(i), new int[]{y, x, direction});
+        }
+         */
+        setFairStartingPos();
+    }
+
+    private void setFairStartingPos(){
+        // x,y,direction
+        List<int[]> playerPos = new ArrayList<>();
+        playerPos.add(new int[]{gameBoard[0].length - ((Double)(gameBoard[0].length * 0.8)).intValue() , gameBoard.length - ((Double)(gameBoard.length*0.8)).intValue(), Config.DOWN});
+        playerPos.add(new int[]{gameBoard[0].length - ((Double)(gameBoard[0].length * 0.2)).intValue() , gameBoard.length - ((Double)(gameBoard.length*0.2)).intValue(), Config.UP});
+        playerPos.add(new int[]{gameBoard[0].length - ((Double)(gameBoard[0].length * 0.8)).intValue() , gameBoard.length - ((Double)(gameBoard.length*0.2)).intValue(), Config.UP});
+        playerPos.add(new int[]{gameBoard[0].length - ((Double)(gameBoard[0].length * 0.2)).intValue() , gameBoard.length - ((Double)(gameBoard.length*0.8)).intValue(), Config.DOWN});
+        playerPos.add(new int[]{gameBoard[0].length - ((Double)(gameBoard[0].length * 0.5)).intValue() , gameBoard.length - ((Double)(gameBoard.length*0.2)).intValue(), Config.UP});
+        playerPos.add(new int[]{gameBoard[0].length - ((Double)(gameBoard[0].length * 0.5)).intValue() , gameBoard.length - ((Double)(gameBoard.length*0.8)).intValue(), Config.DOWN});
+
+        for (int i=0;i<numberOfPlayers;i++) {
+            playerNumberBikePositionDirection.put(listOfPlayers.get(i), playerPos.get(i));
         }
     }
 

@@ -1,7 +1,8 @@
 package middleware.ServerStub;
 
 import trongame.applicationStub.callee.ICallee;
-import middleware.INameServiceHelper;
+import Interfaces.INameServiceHelper;
+import Interfaces.IServerStub;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
