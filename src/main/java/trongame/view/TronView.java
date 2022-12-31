@@ -16,11 +16,15 @@ import java.util.List;
 
 public class TronView implements IGameView {
 
+    private final Scene lobbyScene;
+    private final Scene endScene;
+    private final Scene gameScene;
     IGameController tronController;
     Stage window;
 
     private final GameScreen gameScreen;
     private final StartScreen startScreen;
+    private final Scene startScene;
 
     private final LobbyScreen lobbyScreen;
     private final EndScreen endScreen;
@@ -31,32 +35,36 @@ public class TronView implements IGameView {
         this.window = primaryStage;
         window.setTitle("TRON - Light Cycles");
         this.startScreen = new StartScreen(tronController, this);
+        this.startScene = new Scene(startScreen, Config.WIDTH, Config.HEIGHT + 15);
         this.lobbyScreen = new LobbyScreen(tronController);
+        this.lobbyScene = new Scene(lobbyScreen, Config.WIDTH, Config.HEIGHT + 15);
         this.endScreen = new EndScreen(tronController);
+        this.endScene = new Scene(endScreen, Config.WIDTH, Config.HEIGHT + 15);
         this.gameScreen = new GameScreen(tronController, this);
+        this.gameScene = new Scene(gameScreen, Config.WIDTH, Config.HEIGHT + 15);
         this.showStartScreen();
     }
 
     @Override
     public void showStartScreen() {
-        showScreen(startScreen);
+        showScreen(startScene);
     }
 
     @Override
     public void showEndScreen(String outcome) {
-        showScreen(endScreen);
+        showScreen(endScene);
         endScreen.renderOutcome(outcome);
     }
 
     @Override
     public void showGameScreen() {
-        showScreen(gameScreen);
+        showScreen(gameScene);
         gameScreen.requestFocus();
     }
 
     @Override
     public void showLobbyScreen() {
-        showScreen(lobbyScreen);
+        showScreen(lobbyScene);
     }
 
     @Override
@@ -79,8 +87,7 @@ public class TronView implements IGameView {
         gameScreen.deletePlayer(positions);
     }
 
-    private void showScreen(Pane screen) {
-        Scene scene = new Scene(screen, Config.WIDTH, Config.HEIGHT + 15);
+    private void showScreen(Scene scene) {
         window.setScene(scene);
         window.show();
     }

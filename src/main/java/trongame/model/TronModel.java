@@ -17,7 +17,9 @@ public class TronModel implements IGameModel {
     IGameController gameController;
     IPublisher publisher;
 
-    HashMap<Integer, int[]> playerNumberBikePositionDirection = new HashMap<>();
+    HashMap<Integer, Integer> validDirectionMap;
+
+    HashMap<Integer, int[]> playerNumberBikePositionDirection;
 
     public TronModel(IGameController gameController, IPublisher publisher) {
         this.gameController = gameController;
@@ -28,6 +30,8 @@ public class TronModel implements IGameModel {
     public void initGame(int numberOfPlayers, List<Integer> listOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
         this.listOfPlayers = listOfPlayers;
+        playerNumberBikePositionDirection = new HashMap<>();
+        validDirectionMap = new HashMap<>();
         clearBoard();
         initPlayers();
         setStartingPositions();
@@ -47,34 +51,23 @@ public class TronModel implements IGameModel {
     }
 
     private void initPlayers() {
-        // TODO set Fair Starting Pos
-        /*
-        Random rng = new Random();
-        int x;
-        int y;
-        int direction;
-        for (int i = 0; i < numberOfPlayers; i++) {
-            x = rng.nextInt(Config.COLUMNS);
-            y = rng.nextInt(Config.ROWS);
-            direction = Config.DOWN;
-            playerNumberBikePositionDirection.put(listOfPlayers.get(i), new int[]{y, x, direction});
-        }
-         */
         setFairStartingPos();
     }
 
-    private void setFairStartingPos(){
+    private void setFairStartingPos() {
         // x,y,direction
         List<int[]> playerPos = new ArrayList<>();
-        playerPos.add(new int[]{gameBoard[0].length - ((Double)(gameBoard[0].length * 0.8)).intValue() , gameBoard.length - ((Double)(gameBoard.length*0.8)).intValue(), Config.DOWN});
-        playerPos.add(new int[]{gameBoard[0].length - ((Double)(gameBoard[0].length * 0.2)).intValue() , gameBoard.length - ((Double)(gameBoard.length*0.2)).intValue(), Config.UP});
-        playerPos.add(new int[]{gameBoard[0].length - ((Double)(gameBoard[0].length * 0.8)).intValue() , gameBoard.length - ((Double)(gameBoard.length*0.2)).intValue(), Config.UP});
-        playerPos.add(new int[]{gameBoard[0].length - ((Double)(gameBoard[0].length * 0.2)).intValue() , gameBoard.length - ((Double)(gameBoard.length*0.8)).intValue(), Config.DOWN});
-        playerPos.add(new int[]{gameBoard[0].length - ((Double)(gameBoard[0].length * 0.5)).intValue() , gameBoard.length - ((Double)(gameBoard.length*0.2)).intValue(), Config.UP});
-        playerPos.add(new int[]{gameBoard[0].length - ((Double)(gameBoard[0].length * 0.5)).intValue() , gameBoard.length - ((Double)(gameBoard.length*0.8)).intValue(), Config.DOWN});
+        playerPos.add(new int[]{gameBoard[0].length - ((Double) (gameBoard[0].length * 0.8)).intValue(), gameBoard.length - ((Double) (gameBoard.length * 0.8)).intValue(), Config.DOWN});
 
-        for (int i=0;i<numberOfPlayers;i++) {
+        playerPos.add(new int[]{gameBoard[0].length - ((Double) (gameBoard[0].length * 0.2)).intValue(), gameBoard.length - ((Double) (gameBoard.length * 0.2)).intValue(), Config.UP});
+        playerPos.add(new int[]{gameBoard[0].length - ((Double) (gameBoard[0].length * 0.8)).intValue(), gameBoard.length - ((Double) (gameBoard.length * 0.2)).intValue(), Config.UP});
+        playerPos.add(new int[]{gameBoard[0].length - ((Double) (gameBoard[0].length * 0.2)).intValue(), gameBoard.length - ((Double) (gameBoard.length * 0.8)).intValue(), Config.DOWN});
+        playerPos.add(new int[]{gameBoard[0].length - ((Double) (gameBoard[0].length * 0.5)).intValue(), gameBoard.length - ((Double) (gameBoard.length * 0.2)).intValue(), Config.UP});
+        playerPos.add(new int[]{gameBoard[0].length - ((Double) (gameBoard[0].length * 0.5)).intValue(), gameBoard.length - ((Double) (gameBoard.length * 0.8)).intValue(), Config.DOWN});
+
+        for (int i = 0; i < numberOfPlayers; i++) {
             playerNumberBikePositionDirection.put(listOfPlayers.get(i), playerPos.get(i));
+            validDirectionMap.put(listOfPlayers.get(i), playerPos.get(i)[2]);
         }
     }
 
@@ -100,16 +93,6 @@ public class TronModel implements IGameModel {
                 }
             }
         }
-
-        //
-//        for (int positions[] :
-//                gameBoard) {
-//            for (int position :
-//                    positions) {
-//               playerPositions.add(position);
-//            }
-//        }
-        //
         gameController.deletePlayer(playerPositions);
     }
 
@@ -125,15 +108,19 @@ public class TronModel implements IGameModel {
                 switch (playerPositionAndDirection[2]) {
                     case Config.LEFT:
                         playerNumberBikePositionDirection.get(playerNumber)[1] = playerPositionAndDirection[1] - 1;
+                        validDirectionMap.replace(playerNumber,Config.LEFT);
                         break;
                     case Config.RIGHT:
                         playerNumberBikePositionDirection.get(playerNumber)[1] = playerPositionAndDirection[1] + 1;
+                        validDirectionMap.replace(playerNumber,Config.RIGHT);
                         break;
                     case Config.UP:
                         playerNumberBikePositionDirection.get(playerNumber)[0] = playerPositionAndDirection[0] - 1;
+                        validDirectionMap.replace(playerNumber,Config.UP);
                         break;
                     case Config.DOWN:
                         playerNumberBikePositionDirection.get(playerNumber)[0] = playerPositionAndDirection[0] + 1;
+                        validDirectionMap.replace(playerNumber,Config.DOWN);
                         break;
                 }
                 // make move on the board
@@ -151,7 +138,7 @@ public class TronModel implements IGameModel {
     }
 
     private boolean isValidDirection(int playerNumber, int newDirection) {
-        int currentDirection = playerNumberBikePositionDirection.get(playerNumber)[2];
+        int currentDirection = validDirectionMap.get(playerNumber);
         if (currentDirection == Config.UP && newDirection == Config.DOWN) return false;
         else if (currentDirection == Config.DOWN && newDirection == Config.UP) return false;
         else if (currentDirection == Config.RIGHT && newDirection == Config.LEFT) return false;

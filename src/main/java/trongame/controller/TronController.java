@@ -35,6 +35,10 @@ public class TronController implements IGameController, IPublisher {
         gameOver = true;
         this.outcome = outcome;
         changeScreen(Config.GO_TO_END, 0);
+        timer = new LobbyTimer(this, false);
+        timer.start();
+        numberOfPlayer = 0;
+        listOfPlayers.clear();
     }
 
 
@@ -52,7 +56,7 @@ public class TronController implements IGameController, IPublisher {
         subscribedViews.forEach(tronView -> tronView.updateTimer(time));
     }
 
-    private void updatePlayercount(){
+    private void updatePlayercount() {
         subscribedViews.forEach(tronView -> tronView.updatePlayercount(numberOfPlayer));
     }
 
@@ -63,8 +67,8 @@ public class TronController implements IGameController, IPublisher {
             case Config.GO_TO_LOBBY:
                 //subscribedViews.forEach(IGameView::showLobbyScreen);
 
-                for(IGameView gameView : subscribedViews){
-                    if(gameView.getId() == playerId){
+                for (IGameView gameView : subscribedViews) {
+                    if (gameView.getId() == playerId) {
                         gameView.showLobbyScreen();
                     }
                 }
@@ -75,6 +79,9 @@ public class TronController implements IGameController, IPublisher {
                 break;
             case Config.GO_TO_END:
                 subscribedViews.forEach(tronView -> tronView.showEndScreen(outcome));
+                break;
+            case Config.GO_TO_START:
+                subscribedViews.forEach(IGameView::showStartScreen);
                 break;
         }
     }
@@ -97,6 +104,7 @@ public class TronController implements IGameController, IPublisher {
             public void run() {
                 Platform.runLater(() -> {
                     if (gameOver) {
+                        gameOver = false;
                         timer.cancel();
                     } else {
                         tronModel.updatePlayingField();
@@ -133,10 +141,10 @@ public class TronController implements IGameController, IPublisher {
         subscribedViews.add(gameView);
         updatePlayercount();
 
-        if(numberOfPlayer==1){
-            timer = new LobbyTimer(this);
+        if (numberOfPlayer == 1) {
+            timer = new LobbyTimer(this, true);
             timer.start();
-        } else if(numberOfPlayer==Config.NUMBER_OF_PLAYERS){
+        } else if (numberOfPlayer == Config.NUMBER_OF_PLAYERS) {
             timer.interrupt();
             lobbyScreenTimer();
         }
@@ -157,21 +165,33 @@ public class TronController implements IGameController, IPublisher {
 
     }
 
-    private class LobbyTimer extends Thread{
+    private class LobbyTimer extends Thread {
+        boolean lobbyTimer;
         TronController gameController;
-        public LobbyTimer(TronController gameController){
+
+        public LobbyTimer(TronController gameController, boolean lobbyTimer) {
+            this.lobbyTimer = lobbyTimer;
             this.gameController = gameController;
         }
+
         @Override
-        public void run(){
-            try {
-                Thread.sleep(Config.LOBBY_TIMEOUT);
-                gameController.lobbyScreenTimer();
-            } catch (InterruptedException e){
-                System.err.println("Maximum number of players reached");
+        public void run() {
+            if (lobbyTimer) {
+                try {
+                    Thread.sleep(Config.LOBBY_TIMEOUT);
+                    gameController.lobbyScreenTimer();
+                } catch (InterruptedException e) {
+                    System.err.println("Maximum number of players reached");
+                }
+            } else {
+                try {
+                    Thread.sleep(Config.ENDGAME_TIMEOUT);
+                    gameController.changeScreen(Config.GO_TO_START, 0);
+                    subscribedViews.clear();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
-
     }
 }

@@ -1,6 +1,7 @@
 package trongame.applicationStub.callee;
 
 import com.google.gson.Gson;
+import config.Config;
 import middleware.ClientStub.IClientStub;
 import trongame.applicationStub.caller.RemoteView;
 import trongame.controller.IGameController;
@@ -27,6 +28,7 @@ public class CalleeController implements ICallee {
         if (methodId.equals("subscribe")) {
             int id = gson.fromJson(data, Integer.class);
             publisher.subscribe(new RemoteView(clientStub, id));
+            gameController.handleInput(id, Config.GO_TO_LOBBY);
         } else {
             Object[] parameterArray = gson.fromJson(data, Object[].class);
             int playerNumber = ((Double) parameterArray[0]).intValue();

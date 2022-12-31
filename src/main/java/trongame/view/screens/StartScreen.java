@@ -28,12 +28,6 @@ public class StartScreen extends Pane {
 
     private void btnClickEvent() {
         ((IPublisher) controller).subscribe(view);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        }
-        controller.handleInput(view.getId(), Config.GO_TO_LOBBY);
     }
 }
 
