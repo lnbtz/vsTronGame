@@ -1,5 +1,6 @@
 package middleware;
 
+import Interfaces.INameServiceHelper;
 import config.Config;
 
 import java.io.BufferedReader;

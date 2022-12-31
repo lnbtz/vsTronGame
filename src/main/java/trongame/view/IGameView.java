@@ -6,6 +6,7 @@ import java.util.List;
 public interface IGameView {
 
     void updateTimer(int time);
+    void updatePlayercount(int playercount);
 
     void updateGameUI(HashMap<Integer, int[]> playerNumbersAndPositions);
 

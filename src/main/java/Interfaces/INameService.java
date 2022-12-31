@@ -1,4 +1,4 @@
-package middleware.NameService;
+package Interfaces;
 
 public interface INameService {
     public final int port = 1234;
