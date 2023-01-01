@@ -65,7 +65,7 @@ public class CalleeView implements ICallee, IGameView {
     }
 
     @Override
-    public void updatePlayercount(int playercount) {
+    public void updatePlayerCount(int playerCount) {
 
     }
 

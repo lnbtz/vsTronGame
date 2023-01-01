@@ -13,22 +13,19 @@ import trongame.controller.TronController;
 public class EndScreen extends Pane {
 
     IGameController tronController;
-
+    Label winnerLabel = new Label();
     public EndScreen(IGameController tronController) {
         this.tronController = tronController;
     }
 
     public void renderOutcome(String outcome){
-        Label winnerLabel = new Label();
         winnerLabel.setFont(new Font(50));
         winnerLabel.setTextFill(Color.GREEN);
         winnerLabel.setAlignment(Pos.CENTER);
         if (outcome.equals("draw")) {
             winnerLabel.setText("game was draw");
-            System.out.println("game was draw");
         } else {
             winnerLabel.setText("the winner is player " + outcome + "!");
-            System.out.println("the winner is player " + outcome + "!");
         }
         VBox vBox = new VBox();
         vBox.setSpacing(20);
@@ -37,5 +34,9 @@ public class EndScreen extends Pane {
         vBox.setPrefWidth(Config.WIDTH);
         vBox.getChildren().add(winnerLabel);
         getChildren().add(vBox);
+    }
+
+    public void resetScreen(){
+        winnerLabel.setText("");
     }
 }

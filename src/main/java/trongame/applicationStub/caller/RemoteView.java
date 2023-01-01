@@ -58,9 +58,9 @@ public class RemoteView implements IGameView {
     }
 
     @Override
-    public void updatePlayercount(int playercount) {
-        String data = gson.toJson(playercount);
-        clientStub.invoke(id, "updatePlayercount", data, Config.SEND_TCP);
+    public void updatePlayerCount(int playerCount) {
+        String data = gson.toJson(playerCount);
+        clientStub.invoke(id, "updatePlayerCount", data, Config.SEND_TCP);
     }
 
     @Override

@@ -27,7 +27,6 @@ public class GameScreen extends VBox {
     Rectangle playerColor;
 
 
-
     public GameScreen(IGameController tronController, IGameView gameView) {
         this.view = gameView;
         this.gameBoard = new Pane();
@@ -40,7 +39,7 @@ public class GameScreen extends VBox {
 
         this.tronController = tronController;
 
-        this.setHeight(Config.HEIGHT+15);
+        this.setHeight(Config.HEIGHT + 15);
         this.setWidth(Config.WIDTH);
         /*
         this.setStyle("-fx-background-color: gray;");
@@ -94,7 +93,7 @@ public class GameScreen extends VBox {
 
 
     public void updateScreen(Map<Integer, int[]> playerNumberAndPosition) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case Config.RED:
                 playerColor.setFill(Color.RED);
                 break;
@@ -153,6 +152,14 @@ public class GameScreen extends VBox {
                 break;
         }
         this.gameBoard.getChildren().add(cycleHead);
+    }
+
+    public void resetScreen() {
+        for (int i = 0; i < Config.ROWS; i++) {
+            for (int j = 0; j < Config.COLUMNS; j++) {
+                renderPosition(Config.DELETE, new int[]{i, j});
+            }
+        }
     }
 
 }

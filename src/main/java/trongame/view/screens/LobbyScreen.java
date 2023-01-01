@@ -12,7 +12,7 @@ import trongame.controller.IGameController;
 public class LobbyScreen extends Pane {
 
     Label timer;
-    Label currentPlayercount;
+    Label currentPlayerCount;
 
     IGameController tronController;
     public LobbyScreen(IGameController tronController) {
@@ -20,36 +20,19 @@ public class LobbyScreen extends Pane {
         this.setHeight(Config.HEIGHT);
         this.setWidth(Config.WIDTH);
 
-        /*
-        // timer label
-        Label timerLabel = new Label("Waiting...");
-        timerLabel.setFont(new Font(30));
-        timerLabel.setTextFill(Color.BLACK);
-        timerLabel.setMinSize(200, 35);
-        timerLabel.setMaxSize(200, 35);
-        // timer label VBox
-        VBox vBox = new VBox();
-        vBox.setSpacing(20);
-        vBox.setLayoutY(30);
-        vBox.setAlignment(Pos.CENTER);
-        vBox.setPrefWidth(Config.WIDTH);
-        vBox.getChildren().add(timerLabel);
-        this.getChildren().add(vBox);
-         */
-
         // setup Timer
-        timer = new Label("");
+        timer = new Label("Waiting...");
         timer.setFont(new Font(30));
         timer.setMinSize(500, 40);
         timer.setMaxSize(500,40);
         timer.setTextFill(Color.RED);
 
-        // setup plyercount
-        currentPlayercount = new Label("");
-        currentPlayercount.setFont(new Font(30));
-        currentPlayercount.setMinSize(500, 40);
-        currentPlayercount.setMaxSize(500, 40);
-        currentPlayercount.setTextFill(Color.RED);
+        // setup playerCount
+        currentPlayerCount = new Label("");
+        currentPlayerCount.setFont(new Font(30));
+        currentPlayerCount.setMinSize(500, 40);
+        currentPlayerCount.setMaxSize(500, 40);
+        currentPlayerCount.setTextFill(Color.RED);
 
         VBox vBox1 = new VBox();
         vBox1.setSpacing(20);
@@ -59,11 +42,15 @@ public class LobbyScreen extends Pane {
         this.getChildren().add(vBox1);
 
         vBox1.getChildren().add(timer);
-        vBox1.getChildren().add(currentPlayercount);
+        vBox1.getChildren().add(currentPlayerCount);
     }
 
-    public void updatePlayercount(int playercount){
-        currentPlayercount.setText("Number of players: " + playercount);
+    public void resetScreen(){
+        timer.setText("Waiting...");
+    }
+
+    public void updatePlayerCount(int playerCount){
+        currentPlayerCount.setText("Number of players: " + playerCount);
     }
     public void updateTimer(int time){
         timer.setText("Game starts in: " + time);

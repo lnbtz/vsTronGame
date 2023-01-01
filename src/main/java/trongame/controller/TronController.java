@@ -12,7 +12,7 @@ import trongame.view.IGameView;
 import java.util.*;
 
 public class TronController implements IGameController, IPublisher {
-    int numberOfPlayer = 0;
+    int currentNumberOfPlayers = 0;
     List<Integer> listOfPlayers = new ArrayList<>();
     List<IGameView> subscribedViews = new ArrayList<>();
     TronModel tronModel;
@@ -37,7 +37,7 @@ public class TronController implements IGameController, IPublisher {
         changeScreen(Config.GO_TO_END, 0);
         timer = new LobbyTimer(this, false);
         timer.start();
-        numberOfPlayer = 0;
+        currentNumberOfPlayers = 0;
         listOfPlayers.clear();
     }
 
@@ -56,17 +56,13 @@ public class TronController implements IGameController, IPublisher {
         subscribedViews.forEach(tronView -> tronView.updateTimer(time));
     }
 
-    private void updatePlayercount() {
-        subscribedViews.forEach(tronView -> tronView.updatePlayercount(numberOfPlayer));
+    private void updatePlayerCount() {
+        subscribedViews.forEach(tronView -> tronView.updatePlayerCount(currentNumberOfPlayers));
     }
 
     private void changeScreen(int screen, int playerId) {
-        // TODO how to handle different views clicking start Button?
-        // TODO dont change screen via "handleInput" method and make views call changeScreen Functions on Controller?
         switch (screen) {
             case Config.GO_TO_LOBBY:
-                //subscribedViews.forEach(IGameView::showLobbyScreen);
-
                 for (IGameView gameView : subscribedViews) {
                     if (gameView.getId() == playerId) {
                         gameView.showLobbyScreen();
@@ -87,7 +83,7 @@ public class TronController implements IGameController, IPublisher {
     }
 
     private void gameLoop() {
-        tronModel.initGame(numberOfPlayer, listOfPlayers);
+        tronModel.initGame(currentNumberOfPlayers, listOfPlayers);
         //Test
         /*
         tronModel.updatePlayingField();
@@ -135,16 +131,15 @@ public class TronController implements IGameController, IPublisher {
 
     @Override
     public void subscribe(IGameView gameView) {
-        // TODO use id as player number
-        numberOfPlayer++;
+        currentNumberOfPlayers++;
         listOfPlayers.add(gameView.getId());
         subscribedViews.add(gameView);
-        updatePlayercount();
+        updatePlayerCount();
 
-        if (numberOfPlayer == 1) {
+        if (currentNumberOfPlayers == 1) {
             timer = new LobbyTimer(this, true);
             timer.start();
-        } else if (numberOfPlayer == Config.NUMBER_OF_PLAYERS) {
+        } else if (currentNumberOfPlayers == Config.NUMBER_OF_PLAYERS) {
             timer.interrupt();
             lobbyScreenTimer();
         }

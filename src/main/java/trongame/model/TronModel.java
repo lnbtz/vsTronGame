@@ -58,7 +58,6 @@ public class TronModel implements IGameModel {
         // x,y,direction
         List<int[]> playerPos = new ArrayList<>();
         playerPos.add(new int[]{gameBoard[0].length - ((Double) (gameBoard[0].length * 0.8)).intValue(), gameBoard.length - ((Double) (gameBoard.length * 0.8)).intValue(), Config.DOWN});
-
         playerPos.add(new int[]{gameBoard[0].length - ((Double) (gameBoard[0].length * 0.2)).intValue(), gameBoard.length - ((Double) (gameBoard.length * 0.2)).intValue(), Config.UP});
         playerPos.add(new int[]{gameBoard[0].length - ((Double) (gameBoard[0].length * 0.8)).intValue(), gameBoard.length - ((Double) (gameBoard.length * 0.2)).intValue(), Config.UP});
         playerPos.add(new int[]{gameBoard[0].length - ((Double) (gameBoard[0].length * 0.2)).intValue(), gameBoard.length - ((Double) (gameBoard.length * 0.8)).intValue(), Config.DOWN});
@@ -108,19 +107,19 @@ public class TronModel implements IGameModel {
                 switch (playerPositionAndDirection[2]) {
                     case Config.LEFT:
                         playerNumberBikePositionDirection.get(playerNumber)[1] = playerPositionAndDirection[1] - 1;
-                        validDirectionMap.replace(playerNumber,Config.LEFT);
+                        validDirectionMap.replace(playerNumber, Config.LEFT);
                         break;
                     case Config.RIGHT:
                         playerNumberBikePositionDirection.get(playerNumber)[1] = playerPositionAndDirection[1] + 1;
-                        validDirectionMap.replace(playerNumber,Config.RIGHT);
+                        validDirectionMap.replace(playerNumber, Config.RIGHT);
                         break;
                     case Config.UP:
                         playerNumberBikePositionDirection.get(playerNumber)[0] = playerPositionAndDirection[0] - 1;
-                        validDirectionMap.replace(playerNumber,Config.UP);
+                        validDirectionMap.replace(playerNumber, Config.UP);
                         break;
                     case Config.DOWN:
                         playerNumberBikePositionDirection.get(playerNumber)[0] = playerPositionAndDirection[0] + 1;
-                        validDirectionMap.replace(playerNumber,Config.DOWN);
+                        validDirectionMap.replace(playerNumber, Config.DOWN);
                         break;
                 }
                 // make move on the board
@@ -195,7 +194,6 @@ public class TronModel implements IGameModel {
             deletePlayer(playerNumber);
             playerNumberBikePositionDirection.remove(playerNumber);
         }
-
     }
 
     private void makeMoveOnTheBoard(int playerNumber, int y, int x) {
