@@ -2,22 +2,19 @@ package config;
 
 public class Config {
     public static final String IP_ADDRESS_NAME_SERVICE = "192.168.2.133";
-    public static final long ENDGAME_TIMEOUT = 1000;
-    public static int VIEW_ID = 1;
-    public static int CONTROLLER_ID = 0;
-    public static final int TCP_PORT = 60000;
-    public static final int TCP_PORT_NAME_SERVICE = 60001;
-    public static final int UDP_PORT = 61000;
-    public static final String MY_IP_ADDRESS = "192.168.2.106";
-
-    public static final boolean SERVER = true;
+    public static final int LOBBY_TIMEOUT = 3;
+    public static final long ENDGAME_TIMEOUT = 1;
+    public static int viewId = 1;
+    public static int controllerId = 0;
+    public static final int TCP_PORT = 60_000;
+    public static final int TCP_PORT_NAME_SERVICE = 60_001;
+    public static final int UDP_PORT = 61_000;
     public static final int WIDTH = 800;
     public static final int HEIGHT = 800;
     public static final int COLUMNS = 80;
     public static final int ROWS = 80;
 
     public static final int COUNTDOWN_LENGTH = 5;
-    public static final int LOBBY_TIMEOUT = 3000;
 
     public static final int RED = 1;
     public static final int BLUE = 2;

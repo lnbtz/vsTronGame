@@ -10,8 +10,8 @@ import trongame.view.screens.LobbyScreen;
 import trongame.view.screens.StartScreen;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TronView implements IGameView {
 
@@ -74,7 +74,7 @@ public class TronView implements IGameView {
     }
 
     @Override
-    public void updateGameUI(HashMap<Integer, int[]> playerNumbersAndPositions) {
+    public void updateGameUI(Map<Integer, int[]> playerNumbersAndPositions) {
         gameScreen.updateScreen(playerNumbersAndPositions);
     }
 

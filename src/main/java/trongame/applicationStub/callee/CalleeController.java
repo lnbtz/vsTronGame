@@ -2,7 +2,7 @@ package trongame.applicationStub.callee;
 
 import com.google.gson.Gson;
 import config.Config;
-import middleware.ClientStub.IClientStub;
+import middleware.clientStub.IClientStub;
 import trongame.applicationStub.caller.RemoteView;
 import trongame.controller.IGameController;
 import trongame.controller.IPublisher;

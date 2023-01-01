@@ -1,18 +1,15 @@
 package trongame.view.screens;
 
 import config.Config;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import trongame.controller.IGameController;
-import trongame.controller.TronController;
 import trongame.view.IGameView;
 
 import java.util.List;
@@ -73,19 +70,19 @@ public class GameScreen extends VBox {
     private void takeInput(KeyEvent e) {
         switch (e.getCode()) {
             case DOWN: {
-                tronController.handleInput(Config.VIEW_ID, Config.DOWN);
+                tronController.handleInput(Config.viewId, Config.DOWN);
                 break;
             }
             case UP: {
-                tronController.handleInput(Config.VIEW_ID, Config.UP);
+                tronController.handleInput(Config.viewId, Config.UP);
                 break;
             }
             case RIGHT: {
-                tronController.handleInput(Config.VIEW_ID, Config.RIGHT);
+                tronController.handleInput(Config.viewId, Config.RIGHT);
                 break;
             }
             case LEFT: {
-                tronController.handleInput(Config.VIEW_ID, Config.LEFT);
+                tronController.handleInput(Config.viewId, Config.LEFT);
                 break;
             }
         }
@@ -113,19 +110,21 @@ public class GameScreen extends VBox {
                 playerColor.setFill(Color.PURPLE);
                 break;
         }
-        playerNumberAndPosition.forEach(this::renderPosition);
+        playerNumberAndPosition.forEach((playerNumber, position) -> {
+            renderPosition(playerNumber, position[0], position[1]);
+        });
     }
 
     public void deletePlayer(List<Integer> positions) {
         for (int i = 0; i < positions.size(); i += 2) {
-            renderPosition(Config.DELETE, new int[]{positions.get(i), positions.get(i + 1)});
+            renderPosition(Config.DELETE, i, i + 1);
         }
     }
 
-    private void renderPosition(Integer playerNumber, int[] positions) {
+    private void renderPosition(Integer playerNumber, int y, int x) {
         Rectangle cycleHead = new Rectangle();
-        cycleHead.setX(positions[1] * Config.SQUARE_WIDTH);
-        cycleHead.setY(positions[0] * Config.SQUARE_HEIGHT);
+        cycleHead.setX(x * Config.SQUARE_WIDTH);
+        cycleHead.setY(y * Config.SQUARE_HEIGHT);
         cycleHead.setHeight(Config.SQUARE_HEIGHT);
         cycleHead.setWidth(Config.SQUARE_WIDTH);
         switch (playerNumber) {
@@ -157,7 +156,7 @@ public class GameScreen extends VBox {
     public void resetScreen() {
         for (int i = 0; i < Config.ROWS; i++) {
             for (int j = 0; j < Config.COLUMNS; j++) {
-                renderPosition(Config.DELETE, new int[]{i, j});
+                renderPosition(Config.DELETE, i, j);
             }
         }
     }

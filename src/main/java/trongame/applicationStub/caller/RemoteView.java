@@ -2,11 +2,11 @@ package trongame.applicationStub.caller;
 
 import com.google.gson.Gson;
 import config.Config;
-import middleware.ClientStub.IClientStub;
+import middleware.clientStub.IClientStub;
 import trongame.view.IGameView;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RemoteView implements IGameView {
     IClientStub clientStub;
@@ -64,7 +64,7 @@ public class RemoteView implements IGameView {
     }
 
     @Override
-    public void updateGameUI(HashMap<Integer, int[]> playerNumbersAndPositions) {
+    public void updateGameUI(Map<Integer, int[]> playerNumbersAndPositions) {
         String data = gson.toJson(playerNumbersAndPositions);
         clientStub.invoke(id, "updateGameUI", data, Config.SEND_UDP);
     }

@@ -1,15 +1,15 @@
-package middleware.NameService;
+package middleware.nameService;
 
-import Interfaces.INameService;
 import config.Config;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 
 public class NameServiceImpl extends Thread implements INameService {
-    HashMap<Integer, String> hosts;
+    Map<Integer, String> hosts;
     int serverPort;
     int idCounter;
 
@@ -29,7 +29,7 @@ public class NameServiceImpl extends Thread implements INameService {
             PrintWriter out;
 
             while (true) {
-                Socket clientSocket = null;
+                Socket clientSocket;
                 clientSocket = serverSocket.accept();
 
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));

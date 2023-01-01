@@ -7,8 +7,8 @@ import trongame.view.IGameView;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CalleeView implements ICallee, IGameView {
     IGameView tronView;
@@ -70,7 +70,7 @@ public class CalleeView implements ICallee, IGameView {
     }
 
     @Override
-    public void updateGameUI(HashMap<Integer, int[]> playerNumbersAndPositions) {
+    public void updateGameUI(Map<Integer, int[]> playerNumbersAndPositions) {
 
     }
 

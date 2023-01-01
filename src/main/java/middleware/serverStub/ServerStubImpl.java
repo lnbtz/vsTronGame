@@ -1,8 +1,7 @@
-package middleware.ServerStub;
+package middleware.serverStub;
 
 import trongame.applicationStub.callee.ICallee;
-import Interfaces.INameServiceHelper;
-import Interfaces.IServerStub;
+import middleware.INameServiceHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -45,6 +44,7 @@ public class ServerStubImpl extends Thread implements IServerStub {
         return unmarshalledData;
     }
 
+    @Override
     public void run(){
         try{
             recieve();

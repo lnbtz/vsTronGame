@@ -8,7 +8,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import trongame.controller.IGameController;
-import trongame.controller.TronController;
 
 public class EndScreen extends Pane {
 

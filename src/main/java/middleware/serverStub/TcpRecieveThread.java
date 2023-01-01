@@ -1,4 +1,4 @@
-package middleware.ServerStub;
+package middleware.serverStub;
 
 import config.Config;
 

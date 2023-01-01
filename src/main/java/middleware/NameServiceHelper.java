@@ -1,6 +1,5 @@
 package middleware;
 
-import Interfaces.INameServiceHelper;
 import config.Config;
 
 import java.io.BufferedReader;
@@ -10,17 +9,19 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 
 public class NameServiceHelper implements INameServiceHelper {
-    private final HashMap<Integer, InetAddress> cache;
+    private final Map<Integer, InetAddress> cache;
     private final int nameServerPort;
     private final String nameServerAddress;
 
-    public NameServiceHelper(){
+    public NameServiceHelper() {
         this.cache = new HashMap<>();
         this.nameServerPort = Config.TCP_PORT_NAME_SERVICE;
         this.nameServerAddress = Config.IP_ADDRESS_NAME_SERVICE;
     }
+
     @Override
     public int bind(int interfaceType) {
         int objectId = 0;
@@ -36,7 +37,7 @@ public class NameServiceHelper implements INameServiceHelper {
             out.close();
             in.close();
             clientSocket.close();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return objectId;
@@ -47,7 +48,7 @@ public class NameServiceHelper implements INameServiceHelper {
     public InetAddress lookup(int objectId) {
         //cache checken
         InetAddress hostAdress = cache.get(objectId);
-        if(hostAdress != null) return hostAdress;
+        if (hostAdress != null) return hostAdress;
 
         try {
             Socket clientSocket = new Socket(nameServerAddress, nameServerPort);
@@ -58,7 +59,7 @@ public class NameServiceHelper implements INameServiceHelper {
             String nsLookup = in.readLine();
 
             //ergebnis cachen, prüfen ob ergebniss leer
-            if(!nsLookup.equals("null")){
+            if (!nsLookup.equals("null")) {
                 hostAdress = InetAddress.getByName(nsLookup);
                 cache.put(objectId, hostAdress);
             }
@@ -66,7 +67,7 @@ public class NameServiceHelper implements INameServiceHelper {
             out.close();
             in.close();
             clientSocket.close();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         //returns null if host not registered

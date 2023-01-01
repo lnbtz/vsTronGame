@@ -2,45 +2,26 @@ package trongame;
 
 import config.Config;
 import javafx.stage.Stage;
-import middleware.ClientStub.ClientStubImpl;
-import middleware.ClientStub.SendQueue;
-import middleware.ClientStub.TcpSendThread;
-import middleware.ClientStub.UdpSendThread;
-import middleware.NameService.NameServiceImpl;
+import middleware.clientStub.ClientStubImpl;
+import middleware.clientStub.SendQueue;
+import middleware.clientStub.TcpSendThread;
+import middleware.clientStub.UdpSendThread;
+import middleware.nameService.NameServiceImpl;
 import middleware.NameServiceHelper;
-import middleware.ServerStub.RecieveQueue;
-import middleware.ServerStub.ServerStubImpl;
-import middleware.ServerStub.TcpRecieveThread;
-import middleware.ServerStub.UdpRecieveThread;
+import middleware.serverStub.RecieveQueue;
+import middleware.serverStub.ServerStubImpl;
+import middleware.serverStub.TcpRecieveThread;
+import middleware.serverStub.UdpRecieveThread;
 import trongame.applicationStub.callee.CalleeController;
 import trongame.applicationStub.callee.CalleeView;
 import trongame.applicationStub.caller.RemoteController;
-import trongame.controller.IPublisher;
 import trongame.controller.TronController;
 import trongame.model.TronModel;
-import trongame.view.IGameView;
 import trongame.view.TronView;
 
 import java.io.IOException;
 
 public class TronGame {
-//    IGameController tronController;
-//    IPublisher publisher;
-//    IGameModel tronModel;
-//    IGameView tronView;
-//
-//    ISubscriber subscriber;
-//
-//    IGameController remoteController;
-//
-//    ServerStub serverStub;
-//    IClientStub clientStub;
-//    ICallee callee;
-//
-//    ICallee calleeController;
-//    ICallee calleeView;
-//    NameServerHelper nameServerHelper;
-
     public void startStandaloneGame(Stage stage) throws IOException {
 //        this.tronController = new TronController();
 //        this.publisher = (IPublisher) tronController;
@@ -91,7 +72,7 @@ public class TronGame {
 
 
         RemoteController remoteController = new RemoteController(clientStub);
-        remoteController.setId(Config.CONTROLLER_ID);
+        remoteController.setId(Config.controllerId);
         TronView tronView = new TronView(stage, remoteController);
 
 
@@ -99,7 +80,7 @@ public class TronGame {
         int viewId = serverStub.register(1, calleeView);
         calleeView.setId(viewId);
         tronView.setId(viewId);
-        Config.VIEW_ID = viewId;
+        Config.viewId = viewId;
 
         //((IPublisher) remoteController).subscribe(calleeView);
     }
@@ -145,7 +126,7 @@ public class TronGame {
 
 
         RemoteController remoteController = new RemoteController(clientStub);
-        remoteController.setId(Config.CONTROLLER_ID);
+        remoteController.setId(Config.controllerId);
         TronView tronView = new TronView(stage, remoteController);
 
 
@@ -153,7 +134,5 @@ public class TronGame {
         int viewId = serverStub.register(1, calleeView);
         calleeView.setId(viewId);
         tronView.setId(viewId);
-
-        //((IPublisher) remoteController).subscribe(calleeView);
     }
 }

@@ -1,12 +1,13 @@
 package trongame.model;
 
 import config.Config;
-import org.javatuples.Pair;
-import org.javatuples.Triplet;
 import trongame.controller.IGameController;
 import trongame.controller.IPublisher;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -17,9 +18,9 @@ public class TronModel implements IGameModel {
     IGameController gameController;
     IPublisher publisher;
 
-    HashMap<Integer, Integer> validDirectionMap;
+    Map<Integer, Integer> validDirectionMap;
 
-    HashMap<Integer, int[]> playerNumberBikePositionDirection;
+    Map<Integer, int[]> playerNumberBikePositionDirection;
 
     public TronModel(IGameController gameController, IPublisher publisher) {
         this.gameController = gameController;
@@ -129,11 +130,11 @@ public class TronModel implements IGameModel {
     }
 
     private boolean foundWinner() {
-        return playerNumberBikePositionDirection.size() == 1;
+        return playerNumberBikePositionDirection.size() == 0;
     }
 
     private boolean draw() {
-        return playerNumberBikePositionDirection.size() == 0;
+        return playerNumberBikePositionDirection.isEmpty();
     }
 
     private boolean isValidDirection(int playerNumber, int newDirection) {

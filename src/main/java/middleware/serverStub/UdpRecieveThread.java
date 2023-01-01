@@ -1,4 +1,4 @@
-package middleware.ServerStub;
+package middleware.serverStub;
 
 import config.Config;
 
@@ -7,7 +7,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 public class UdpRecieveThread extends Thread{
-    private byte[] buf = new byte[32000];
+    private byte[] buf = new byte[32_000];
     int udpPort = Config.UDP_PORT;
     DatagramSocket udpSocket;
     private RecieveQueue recieveQueue;

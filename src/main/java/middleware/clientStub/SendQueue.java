@@ -1,4 +1,4 @@
-package middleware.ClientStub;
+package middleware.clientStub;
 
 import org.javatuples.Pair;
 

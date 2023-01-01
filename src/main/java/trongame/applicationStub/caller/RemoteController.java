@@ -2,14 +2,14 @@ package trongame.applicationStub.caller;
 
 import com.google.gson.Gson;
 import config.Config;
-import middleware.ClientStub.IClientStub;
+import middleware.clientStub.IClientStub;
 import trongame.controller.IGameController;
 import trongame.controller.IPublisher;
 import trongame.model.IGameModel;
 import trongame.view.IGameView;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RemoteController implements IGameController, IPublisher {
 
@@ -26,13 +26,13 @@ public class RemoteController implements IGameController, IPublisher {
     public void handleInput(int playerNumber, int input) {
         Object[] arrayToSend = {playerNumber, input};
         String data = gson.toJson(arrayToSend);
-        clientStub.invoke(Config.CONTROLLER_ID, "handleInput", data, Config.SEND_UDP);
+        clientStub.invoke(Config.controllerId, "handleInput", data, Config.SEND_UDP);
     }
 
     @Override
     public void subscribe(IGameView iGameView) {
         String data = gson.toJson(iGameView.getId());
-        clientStub.invoke(Config.CONTROLLER_ID, "subscribe", data, Config.SEND_TCP);
+        clientStub.invoke(Config.controllerId, "subscribe", data, Config.SEND_TCP);
     }
 
 
@@ -42,7 +42,7 @@ public class RemoteController implements IGameController, IPublisher {
     }
 
     @Override
-    public void updateGameUI(HashMap<Integer, int[]> playerNumberBikePositionDirection) {
+    public void updateGameUI(Map<Integer, int[]> playerNumberBikePositionDirection) {
 
     }
 

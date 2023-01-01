@@ -10,13 +10,14 @@ import trongame.model.TronModel;
 import trongame.view.IGameView;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class TronController implements IGameController, IPublisher {
     int currentNumberOfPlayers = 0;
     List<Integer> listOfPlayers = new ArrayList<>();
     List<IGameView> subscribedViews = new ArrayList<>();
     TronModel tronModel;
-    LobbyTimer timer;
+    Thread timer;
 
     boolean gameOver = false;
     String outcome;
@@ -30,12 +31,12 @@ public class TronController implements IGameController, IPublisher {
         }
     }
 
-
+    @Override
     public void gameOver(String outcome) {
         gameOver = true;
         this.outcome = outcome;
         changeScreen(Config.GO_TO_END, 0);
-        timer = new LobbyTimer(this, false);
+        timer = new Thread(new LobbyTimer(this, false));
         timer.start();
         currentNumberOfPlayers = 0;
         listOfPlayers.clear();
@@ -43,11 +44,12 @@ public class TronController implements IGameController, IPublisher {
 
 
     @Override
-    public void updateGameUI(HashMap<Integer, int[]> playerNumbersAndPositions) {
+    public void updateGameUI(Map<Integer, int[]> playerNumbersAndPositions) {
         subscribedViews.forEach(tronView -> tronView.updateGameUI(playerNumbersAndPositions)
         );
     }
 
+    @Override
     public void deletePlayer(List<Integer> playerPositions) {
         subscribedViews.forEach(tronView -> tronView.deletePlayer(playerPositions));
     }
@@ -84,16 +86,6 @@ public class TronController implements IGameController, IPublisher {
 
     private void gameLoop() {
         tronModel.initGame(currentNumberOfPlayers, listOfPlayers);
-        //Test
-        /*
-        tronModel.updatePlayingField();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-         */
-        //endTest
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -112,7 +104,6 @@ public class TronController implements IGameController, IPublisher {
     }
 
     private void lobbyScreenTimer() {
-        // TODO make it so that ppl can join while timer is running
         final int[] time = {Config.COUNTDOWN_LENGTH};
         Timeline fiveSecondsWonder = new Timeline(
                 new KeyFrame(Duration.seconds(1),
@@ -121,7 +112,7 @@ public class TronController implements IGameController, IPublisher {
                                 time[0]--;
                                 updateTimer(time[0]);
                             } else {
-                                handleInput(Config.VIEW_ID, Config.GO_TO_GAME);
+                                handleInput(Config.viewId, Config.GO_TO_GAME);
                             }
                         }));
         fiveSecondsWonder.setCycleCount(Config.COUNTDOWN_LENGTH);
@@ -137,7 +128,7 @@ public class TronController implements IGameController, IPublisher {
         updatePlayerCount();
 
         if (currentNumberOfPlayers == 1) {
-            timer = new LobbyTimer(this, true);
+            timer = new Thread(new LobbyTimer(this, true));
             timer.start();
         } else if (currentNumberOfPlayers == Config.NUMBER_OF_PLAYERS) {
             timer.interrupt();
@@ -160,7 +151,7 @@ public class TronController implements IGameController, IPublisher {
 
     }
 
-    private class LobbyTimer extends Thread {
+    private class LobbyTimer implements Runnable {
         boolean lobbyTimer;
         TronController gameController;
 
@@ -173,14 +164,14 @@ public class TronController implements IGameController, IPublisher {
         public void run() {
             if (lobbyTimer) {
                 try {
-                    Thread.sleep(Config.LOBBY_TIMEOUT);
+                    TimeUnit.SECONDS.sleep(Config.LOBBY_TIMEOUT);
                     gameController.lobbyScreenTimer();
                 } catch (InterruptedException e) {
                     System.err.println("Maximum number of players reached");
                 }
             } else {
                 try {
-                    Thread.sleep(Config.ENDGAME_TIMEOUT);
+                    TimeUnit.SECONDS.sleep(Config.ENDGAME_TIMEOUT);
                     gameController.changeScreen(Config.GO_TO_START, 0);
                     subscribedViews.clear();
                 } catch (InterruptedException e) {
