@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ServerStubImpl extends Thread implements IServerStub {
+public class ServerStubImpl implements IServerStub,Runnable {
     private final Pattern messagePattern;
     Map<Integer, ICallee> calleeMap;
     RecieveQueue recieveQueue;

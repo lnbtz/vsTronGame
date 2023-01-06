@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class TcpSendThread extends Thread{
+public class TcpSendThread implements Runnable{
     int tcpPort = Config.TCP_PORT;
     SendQueue sendQueue;
 

@@ -4,10 +4,7 @@ import config.Config;
 import trongame.controller.IGameController;
 import trongame.controller.IPublisher;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -67,7 +64,7 @@ public class TronModel implements IGameModel {
 
         for (int i = 0; i < numberOfPlayers; i++) {
             playerNumberBikePositionDirection.put(listOfPlayers.get(i), playerPos.get(i));
-            validDirectionMap.put(listOfPlayers.get(i), playerPos.get(i)[2]);
+            validDirectionMap.put(listOfPlayers.get(i), currentDirection(playerPos.get(i)));
         }
     }
 
@@ -105,27 +102,34 @@ public class TronModel implements IGameModel {
         } else {
             playerNumberBikePositionDirection.forEach((playerNumber, playerPositionAndDirection) -> {
                 // update playerPosition
-                switch (playerPositionAndDirection[2]) {
-                    case Config.LEFT:
-                        playerNumberBikePositionDirection.get(playerNumber)[1] = playerPositionAndDirection[1] - 1;
-                        validDirectionMap.replace(playerNumber, Config.LEFT);
-                        break;
-                    case Config.RIGHT:
-                        playerNumberBikePositionDirection.get(playerNumber)[1] = playerPositionAndDirection[1] + 1;
-                        validDirectionMap.replace(playerNumber, Config.RIGHT);
-                        break;
-                    case Config.UP:
-                        playerNumberBikePositionDirection.get(playerNumber)[0] = playerPositionAndDirection[0] - 1;
-                        validDirectionMap.replace(playerNumber, Config.UP);
-                        break;
-                    case Config.DOWN:
-                        playerNumberBikePositionDirection.get(playerNumber)[0] = playerPositionAndDirection[0] + 1;
-                        validDirectionMap.replace(playerNumber, Config.DOWN);
-                        break;
-                }
+                updatePlayer(playerNumber, playerPositionAndDirection);
                 // make move on the board
                 makeMoveOnTheBoard(playerNumber, playerPositionAndDirection[0], playerPositionAndDirection[1]);
             });
+        }
+    }
+
+    private void updatePlayer(Integer playerNumber, int[] playerPositionAndDirection) {
+        int y = playerPositionAndDirection[0];
+        int x = playerPositionAndDirection[1];
+        int currentDirection = currentDirection(playerPositionAndDirection);
+        switch (currentDirection) {
+            case Config.LEFT:
+                playerNumberBikePositionDirection.get(playerNumber)[1] = x - 1;
+                validDirectionMap.replace(playerNumber, Config.LEFT);
+                break;
+            case Config.RIGHT:
+                playerNumberBikePositionDirection.get(playerNumber)[1] = x + 1;
+                validDirectionMap.replace(playerNumber, Config.RIGHT);
+                break;
+            case Config.UP:
+                playerNumberBikePositionDirection.get(playerNumber)[0] = y - 1;
+                validDirectionMap.replace(playerNumber, Config.UP);
+                break;
+            case Config.DOWN:
+                playerNumberBikePositionDirection.get(playerNumber)[0] = y + 1;
+                validDirectionMap.replace(playerNumber, Config.DOWN);
+                break;
         }
     }
 
@@ -151,50 +155,73 @@ public class TronModel implements IGameModel {
         AtomicInteger index = new AtomicInteger();
         // check for border or path collision
         playerNumberBikePositionDirection.forEach((playerNumber, playerPositionAndDirection) -> {
-            switch (playerPositionAndDirection[2]) {
-                case Config.LEFT:
-                    if (playerPositionAndDirection[1] - 1 < 0 || gameBoard[playerPositionAndDirection[0]][playerPositionAndDirection[1] - 1] != 0) {
-                        toBeRemoved.add(playerNumber);
-                    }
-                    newPositions[index.get()] = new int[]{playerNumber, playerPositionAndDirection[0], playerPositionAndDirection[1]};
-                    break;
-                case Config.RIGHT:
-                    if (playerPositionAndDirection[1] + 1 > Config.COLUMNS - 1 || gameBoard[playerPositionAndDirection[0]][playerPositionAndDirection[1] + 1] != 0) {
-                        toBeRemoved.add(playerNumber);
-                    }
-                    newPositions[index.get()] = new int[]{playerNumber, playerPositionAndDirection[0], playerPositionAndDirection[1]};
-                    break;
-                case Config.UP:
-                    if (playerPositionAndDirection[0] - 1 < 0 || gameBoard[playerPositionAndDirection[0] - 1][playerPositionAndDirection[1]] != 0) {
-                        toBeRemoved.add(playerNumber);
-                    }
-                    newPositions[index.get()] = new int[]{playerNumber, playerPositionAndDirection[0], playerPositionAndDirection[1]};
-                    break;
-                case Config.DOWN:
-                    if (playerPositionAndDirection[0] + 1 > Config.ROWS - 1 || gameBoard[playerPositionAndDirection[0] + 1][playerPositionAndDirection[1]] != 0) {
-                        toBeRemoved.add(playerNumber);
-                    }
-                    newPositions[index.get()] = new int[]{playerNumber, playerPositionAndDirection[0], playerPositionAndDirection[1]};
-                    break;
-            }
-            index.getAndIncrement();
+            checkPlayerCollision(newPositions, toBeRemoved, index, playerNumber, playerPositionAndDirection);
         });
         // check for frontal collision
-        for (int i = 0; i < newPositions.length; i++) {
-            for (int j = i + 1; j < newPositions.length - 1; j++) {
-                if (newPositions[i][1] == newPositions[j][1] && newPositions[i][2] == newPositions[j][2]) {
-                    toBeRemoved.add(newPositions[i][0]);
-                    toBeRemoved.add(newPositions[j][0]);
-                }
-            }
-        }
+        checkFrontalCollision(newPositions, toBeRemoved);
         // delete and remove crashed bikes
+        deleteCrashedBikes(toBeRemoved);
+    }
+
+    private void checkPlayerCollision(int[][] newPositions, List<Integer> toBeRemoved, AtomicInteger index, Integer playerNumber, int[] playerPositionAndDirection) {
+        int y = playerPositionAndDirection[0];
+        int x = playerPositionAndDirection[1];
+        int currentDirection = currentDirection(playerPositionAndDirection);
+        switch (currentDirection) {
+            case Config.LEFT:
+                removeOutOfBoundsOrCollisionLeftRight(toBeRemoved, playerNumber, x - 1, y);
+                newPositions[index.get()] = new int[]{playerNumber, y, x};
+                break;
+            case Config.RIGHT:
+                removeOutOfBoundsOrCollisionLeftRight(toBeRemoved, playerNumber, x + 1, y);
+                newPositions[index.get()] = new int[]{playerNumber, y, x};
+                break;
+            case Config.UP:
+                removeOutOfBoundsOrCollisionUpDown(toBeRemoved, playerNumber, x, y - 1);
+                newPositions[index.get()] = new int[]{playerNumber, y, x};
+                break;
+            case Config.DOWN:
+                removeOutOfBoundsOrCollisionUpDown(toBeRemoved, playerNumber, x, y + 1);
+                newPositions[index.get()] = new int[]{playerNumber, y, x};
+                break;
+        }
+        index.getAndIncrement();
+    }
+
+    private void removeOutOfBoundsOrCollisionUpDown(List<Integer> toBeRemoved, Integer playerNumber, int x, int y) {
+        if (y > Config.ROWS - 1 || y < 0 || gameBoard[y][x] != 0) {
+            toBeRemoved.add(playerNumber);
+        }
+    }
+
+    private void removeOutOfBoundsOrCollisionLeftRight(List<Integer> toBeRemoved, Integer playerNumber, int x, int y) {
+        if (x > Config.COLUMNS - 1 || x < 0 || gameBoard[y][x] != 0) {
+            toBeRemoved.add(playerNumber);
+        }
+    }
+
+    private void deleteCrashedBikes(List<Integer> toBeRemoved) {
         for (Integer playerNumber :
                 toBeRemoved) {
             numberOfPlayers--;
             deletePlayer(playerNumber);
             playerNumberBikePositionDirection.remove(playerNumber);
         }
+    }
+
+    private static void checkFrontalCollision(int[][] newPositions, List<Integer> toBeRemoved) {
+        for (int i = 0; i < newPositions.length; i++) {
+            for (int j = i + 1; j < newPositions.length - 1; j++) {
+                if (newPositions[i][1] == newPositions[j][1] && currentDirection(newPositions[i]) == currentDirection(newPositions[j])) {
+                    toBeRemoved.add(newPositions[i][0]);
+                    toBeRemoved.add(newPositions[j][0]);
+                }
+            }
+        }
+    }
+
+    private static int currentDirection(int[] playerPositionAndDirection) {
+        return playerPositionAndDirection[2];
     }
 
     private void makeMoveOnTheBoard(int playerNumber, int y, int x) {

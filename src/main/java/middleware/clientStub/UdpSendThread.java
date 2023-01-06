@@ -8,7 +8,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class UdpSendThread extends Thread{
+public class UdpSendThread implements Runnable{
     int udpPort = Config.UDP_PORT;
     DatagramSocket udpClientSocket;
     SendQueue sendQueue;

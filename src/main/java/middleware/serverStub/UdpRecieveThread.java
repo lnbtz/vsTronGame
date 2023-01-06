@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
-public class UdpRecieveThread extends Thread{
+public class UdpRecieveThread implements Runnable{
     private byte[] buf = new byte[32_000];
     int udpPort = Config.UDP_PORT;
     DatagramSocket udpSocket;

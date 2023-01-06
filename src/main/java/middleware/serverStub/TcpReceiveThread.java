@@ -7,14 +7,14 @@ import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class TcpRecieveThread extends Thread {
+public class TcpReceiveThread implements Runnable {
     private ServerSocket serverSocket;
     private Socket clientSocket;
     InputStream in;
     private final int tcpPort = Config.TCP_PORT;
     private RecieveQueue recieveQueue;
 
-    public TcpRecieveThread(RecieveQueue recieveQueue) {
+    public TcpReceiveThread(RecieveQueue recieveQueue) {
         this.recieveQueue = recieveQueue;
     }
 
