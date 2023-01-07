@@ -10,6 +10,7 @@ import trongame.view.screens.LobbyScreen;
 import trongame.view.screens.StartScreen;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
 
@@ -90,6 +91,8 @@ public class TronView implements IGameView {
 
     @Override
     public void deletePlayer(List<Integer> positions) {
+        System.out.println("delete view");
+        System.out.println(positions);
         gameScreen.deletePlayer(positions);
     }
 

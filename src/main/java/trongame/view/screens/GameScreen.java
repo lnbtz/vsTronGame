@@ -117,7 +117,7 @@ public class GameScreen extends VBox {
 
     public void deletePlayer(List<Integer> positions) {
         for (int i = 0; i < positions.size(); i += 2) {
-            renderPosition(Config.DELETE, i, i + 1);
+            renderPosition(Config.DELETE, positions.get(i),positions.get(i + 1));
         }
     }
 

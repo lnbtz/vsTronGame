@@ -94,6 +94,7 @@ public class TronModel implements IGameModel {
             }
         }
         gameController.deletePlayer(playerPositions);
+        System.out.println("model" + playerPositions);
     }
 
     private void updatePlayerPositions() {
@@ -130,7 +131,7 @@ public class TronModel implements IGameModel {
     }
 
     private boolean foundWinner() {
-        return playerNumberBikePositionDirection.size() == 0;
+        return playerNumberBikePositionDirection.size() == 1;
     }
 
     private boolean draw() {
@@ -193,6 +194,7 @@ public class TronModel implements IGameModel {
                 toBeRemoved) {
             numberOfPlayers--;
             deletePlayer(playerNumber);
+            System.out.println("model delete");
             playerNumberBikePositionDirection.remove(playerNumber);
         }
     }

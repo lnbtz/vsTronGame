@@ -1,7 +1,7 @@
 package config;
 
 public class Config {
-    public static final String IP_ADDRESS_NAME_SERVICE = "192.168.2.133";
+    public static final String IP_ADDRESS_NAME_SERVICE = "192.168.2.106";
     public static final int LOBBY_TIMEOUT = 3;
     public static final long ENDGAME_TIMEOUT = 1;
     public static int viewId = 1;
