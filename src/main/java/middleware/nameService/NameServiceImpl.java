@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NameServiceImpl extends Thread implements INameService {
+public class NameServiceImpl implements INameService,Runnable {
     Map<Integer, String> hosts;
     int serverPort;
     int idCounter;

@@ -10,7 +10,7 @@ import middleware.nameService.NameServiceImpl;
 import middleware.NameServiceHelper;
 import middleware.serverStub.RecieveQueue;
 import middleware.serverStub.ServerStubImpl;
-import middleware.serverStub.TcpRecieveThread;
+import middleware.serverStub.TcpReceiveThread;
 import middleware.serverStub.UdpRecieveThread;
 import trongame.applicationStub.callee.CalleeController;
 import trongame.applicationStub.callee.CalleeView;
@@ -38,7 +38,8 @@ public class TronGame {
     public void startClientGame(Stage stage) throws IOException {
         // start middleware
         NameServiceImpl nameServiceImpl = new NameServiceImpl();
-        nameServiceImpl.start();
+        Thread nameServiceThread = new Thread(nameServiceImpl);
+        nameServiceThread.start();
         NameServiceHelper nameServiceHelper = new NameServiceHelper();
 
 
@@ -48,21 +49,26 @@ public class TronGame {
 
 
         //Send/Recieve Threads
-        TcpSendThread tcpSendThread = new TcpSendThread(sendQueue);
+        TcpSendThread tcpSender = new TcpSendThread(sendQueue);
+        Thread tcpSendThread = new Thread(tcpSender);
         tcpSendThread.start();
-        TcpRecieveThread tcpRecieveThread = new TcpRecieveThread(recieveQueue);
-        tcpRecieveThread.start();
+        TcpReceiveThread tcpReceiver = new TcpReceiveThread(recieveQueue);
+        Thread tcpReceiveThread = new Thread(tcpReceiver);
+        tcpReceiveThread.start();
 
         //Send/Receive Threads
-        UdpSendThread udpSendThread = new UdpSendThread(sendQueue);
+        UdpSendThread udpSender = new UdpSendThread(sendQueue);
+        Thread udpSendThread = new Thread(udpSender);
         udpSendThread.start();
-        UdpRecieveThread udpRecieveThread = new UdpRecieveThread(recieveQueue);
-        udpRecieveThread.start();
+        UdpRecieveThread udpReceiver = new UdpRecieveThread(recieveQueue);
+        Thread udpReceiveThread = new Thread(udpReceiver);
+        udpReceiveThread.start();
 
         //Stubs
         ClientStubImpl clientStub = new ClientStubImpl(nameServiceHelper, sendQueue);
         ServerStubImpl serverStub = new ServerStubImpl(recieveQueue, nameServiceHelper);
-        serverStub.start();
+        Thread serverStubThread = new Thread(serverStub);
+        serverStubThread.start();
 
 
         // controller
@@ -88,7 +94,8 @@ public class TronGame {
     public void standAloneWithMiddleware(Stage stage) throws IOException {
         // start middleware
         NameServiceImpl nameServiceImpl = new NameServiceImpl();
-        nameServiceImpl.start();
+        Thread nameServiceThread = new Thread(nameServiceImpl);
+        nameServiceThread.start();
         NameServiceHelper nameServiceHelper = new NameServiceHelper();
 
 
@@ -98,21 +105,26 @@ public class TronGame {
 
 
         //Send/Recieve Threads
-        TcpSendThread tcpSendThread = new TcpSendThread(sendQueue);
+        TcpSendThread tcpSender = new TcpSendThread(sendQueue);
+        Thread tcpSendThread = new Thread(tcpSender);
         tcpSendThread.start();
-        TcpRecieveThread tcpRecieveThread = new TcpRecieveThread(recieveQueue);
-        tcpRecieveThread.start();
+        TcpReceiveThread tcpReceiver = new TcpReceiveThread(recieveQueue);
+        Thread tcpReceiveThread = new Thread(tcpReceiver);
+        tcpReceiveThread.start();
 
         //Send/Receive Threads
-        UdpSendThread udpSendThread = new UdpSendThread(sendQueue);
+        UdpSendThread udpSender = new UdpSendThread(sendQueue);
+        Thread udpSendThread = new Thread(udpSender);
         udpSendThread.start();
-        UdpRecieveThread udpRecieveThread = new UdpRecieveThread(recieveQueue);
-        udpRecieveThread.start();
+        UdpRecieveThread udpReceiver = new UdpRecieveThread(recieveQueue);
+        Thread udpReceiveThread = new Thread(udpReceiver);
+        udpReceiveThread.start();
 
         //Stubs
         ClientStubImpl clientStub = new ClientStubImpl(nameServiceHelper, sendQueue);
         ServerStubImpl serverStub = new ServerStubImpl(recieveQueue, nameServiceHelper);
-        serverStub.start();
+        Thread serverStubThread = new Thread(serverStub);
+        serverStubThread.start();
 
 
         // controller
