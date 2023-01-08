@@ -9,9 +9,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class UdpSendThread implements Runnable{
-    int udpPort = Config.UDP_PORT;
-    DatagramSocket udpClientSocket;
-    SendQueue sendQueue;
+    private int udpPort = Config.UDP_PORT;
+    private DatagramSocket udpClientSocket;
+    private SendQueue sendQueue;
 
     public UdpSendThread(SendQueue sendQueue){
         this.sendQueue = sendQueue;

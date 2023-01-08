@@ -13,14 +13,14 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class TronController implements IGameController, IPublisher {
-    int currentNumberOfPlayers = 0;
-    List<Integer> listOfPlayers = new ArrayList<>();
-    List<IGameView> subscribedViews = new ArrayList<>();
-    TronModel tronModel;
-    Thread timer;
+    private int currentNumberOfPlayers = 0;
+    private List<Integer> listOfPlayers = new ArrayList<>();
+    private List<IGameView> subscribedViews = new ArrayList<>();
+    private IGameModel tronModel;
+    private Thread timer;
 
-    boolean gameOver = false;
-    String outcome;
+    private boolean gameOver = false;
+    private String outcome;
 
     @Override
     public void handleInput(int playerNumber, int input) {

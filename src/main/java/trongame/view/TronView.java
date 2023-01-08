@@ -19,8 +19,8 @@ public class TronView implements IGameView {
     private Scene lobbyScene;
     private Scene endScene;
     private Scene gameScene;
-    IGameController tronController;
-    Stage window;
+    private IGameController tronController;
+    private Stage window;
 
     private GameScreen gameScreen;
     private StartScreen startScreen;
@@ -28,7 +28,7 @@ public class TronView implements IGameView {
 
     private LobbyScreen lobbyScreen;
     private EndScreen endScreen;
-    int id;
+    private int id;
 
     public TronView(Stage primaryStage, IGameController controller) throws IOException {
         this.tronController = controller;

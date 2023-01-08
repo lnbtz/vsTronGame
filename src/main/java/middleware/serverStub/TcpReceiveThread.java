@@ -10,7 +10,7 @@ import java.net.Socket;
 public class TcpReceiveThread implements Runnable {
     private ServerSocket serverSocket;
     private Socket clientSocket;
-    InputStream in;
+    private InputStream in;
     private final int tcpPort = Config.TCP_PORT;
     private RecieveQueue recieveQueue;
 
@@ -35,6 +35,5 @@ public class TcpReceiveThread implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

@@ -11,13 +11,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TronModel implements IGameModel {
     private int numberOfPlayers;
     private final int[][] gameBoard = new int[Config.ROWS][Config.COLUMNS];
-    List<Integer> listOfPlayers;
-    IGameController gameController;
-    IPublisher publisher;
+    private List<Integer> listOfPlayers;
+    private IGameController gameController;
+    private IPublisher publisher;
 
-    Map<Integer, Integer> validDirectionMap;
+    private Map<Integer, Integer> validDirectionMap;
 
-    Map<Integer, int[]> playerNumberBikePositionDirection;
+    private Map<Integer, int[]> playerNumberBikePositionDirection;
 
     public TronModel(IGameController gameController, IPublisher publisher) {
         this.gameController = gameController;

@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 
 public class ServerStubImpl implements IServerStub,Runnable {
     private final Pattern messagePattern;
-    Map<Integer, ICallee> calleeMap;
-    RecieveQueue recieveQueue;
-    INameServiceHelper nameService;
+    private Map<Integer, ICallee> calleeMap;
+    private RecieveQueue recieveQueue;
+    private INameServiceHelper nameService;
 
 
     public ServerStubImpl(RecieveQueue recieveQueue, INameServiceHelper nameService){
@@ -53,7 +53,7 @@ public class ServerStubImpl implements IServerStub,Runnable {
         }
     }
 
-    public void recieve() throws IOException {
+    private void recieve() throws IOException {
         while (true){
             byte[] marshalledData = recieveQueue.dequeue();
             String unmarshalledData = unmarshall(marshalledData);

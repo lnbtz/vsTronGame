@@ -9,8 +9,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 public class TcpSendThread implements Runnable{
-    int tcpPort = Config.TCP_PORT;
-    SendQueue sendQueue;
+    private int tcpPort = Config.TCP_PORT;
+    private SendQueue sendQueue;
 
     public TcpSendThread(SendQueue sendQueue){
         this.sendQueue = sendQueue;

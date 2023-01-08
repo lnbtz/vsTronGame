@@ -8,8 +8,8 @@ import java.net.DatagramSocket;
 
 public class UdpRecieveThread implements Runnable{
     private byte[] buf = new byte[32_000];
-    int udpPort = Config.UDP_PORT;
-    DatagramSocket udpSocket;
+    private int udpPort = Config.UDP_PORT;
+    private DatagramSocket udpSocket;
     private RecieveQueue recieveQueue;
 
     public UdpRecieveThread(RecieveQueue recieveQueue){

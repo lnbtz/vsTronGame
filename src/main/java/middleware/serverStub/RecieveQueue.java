@@ -4,7 +4,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class RecieveQueue {
-    public BlockingQueue<byte[]> messages;
+    private BlockingQueue<byte[]> messages;
 
     public RecieveQueue(){
         this.messages = new LinkedBlockingQueue<>(200);
