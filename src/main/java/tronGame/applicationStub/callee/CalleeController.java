@@ -1,11 +1,11 @@
-package trongame.applicationStub.callee;
+package tronGame.applicationStub.callee;
 
 import com.google.gson.Gson;
 import config.Config;
 import middleware.clientStub.IClientStub;
-import trongame.applicationStub.caller.RemoteView;
-import trongame.controller.IGameController;
-import trongame.controller.IPublisher;
+import tronGame.applicationStub.caller.RemoteView;
+import tronGame.controller.IGameController;
+import tronGame.controller.IPublisher;
 
 
 public class CalleeController implements ICallee {
@@ -44,7 +44,7 @@ public class CalleeController implements ICallee {
 
     @Override
     public void setId(int getId) {
-        this.id = id;
+        this.id = getId;
     }
 
 }

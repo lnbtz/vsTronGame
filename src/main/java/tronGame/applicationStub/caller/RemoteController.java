@@ -1,12 +1,12 @@
-package trongame.applicationStub.caller;
+package tronGame.applicationStub.caller;
 
 import com.google.gson.Gson;
 import config.Config;
 import middleware.clientStub.IClientStub;
-import trongame.controller.IGameController;
-import trongame.controller.IPublisher;
-import trongame.model.IGameModel;
-import trongame.view.IGameView;
+import tronGame.controller.IGameController;
+import tronGame.controller.IPublisher;
+import tronGame.model.IGameModel;
+import tronGame.view.IGameView;
 
 import java.util.List;
 import java.util.Map;
@@ -42,23 +42,18 @@ public class RemoteController implements IGameController, IPublisher {
     }
 
     @Override
-    public void updateGameUI(Map<Integer, int[]> playerNumberBikePositionDirection) {
+    public void updateViews(Map<Integer, int[]> playerNumberBikePositionDirection) {
 
     }
 
     @Override
-    public void deletePlayer(List<Integer> playerPositions) {
+    public void deletePlayerFromViews(List<Integer> playerPositions) {
 
     }
 
     @Override
     public void gameOver(String draw) {
 
-    }
-
-    @Override
-    public int getId() {
-        return id;
     }
 
     @Override

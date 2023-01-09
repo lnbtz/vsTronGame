@@ -1,9 +1,8 @@
-package trongame.model;
+package tronGame.model;
 
 import java.util.List;
 
 public interface IGameModel {
-    void loadConfig();
 
     void updatePlayingField();
 

@@ -1,4 +1,4 @@
-package trongame.view;
+package tronGame.view;
 
 import java.util.List;
 import java.util.Map;
@@ -14,11 +14,11 @@ public interface IGameView {
 
     void showStartScreen();
 
-    void showEndScreen(String outcome);
+    void showLobbyScreen();
 
     void showGameScreen();
 
-    void showLobbyScreen();
+    void showEndScreen(String outcome);
     int getId();
 
     void setId(int viewId);

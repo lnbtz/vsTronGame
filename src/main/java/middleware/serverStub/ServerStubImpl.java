@@ -1,17 +1,18 @@
 package middleware.serverStub;
 
-import trongame.applicationStub.callee.ICallee;
-import middleware.INameServiceHelper;
+import tronGame.applicationStub.callee.ICallee;
+import middleware.nameServiceHelper.INameServiceHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ServerStubImpl implements IServerStub,Runnable {
+public class ServerStubImpl implements IServerStub, Runnable {
     private final Pattern messagePattern;
     Map<Integer, ICallee> calleeMap;
     RecieveQueue recieveQueue;
@@ -56,8 +57,10 @@ public class ServerStubImpl implements IServerStub,Runnable {
     public void recieve() throws IOException {
         while (true){
             byte[] marshalledData = recieveQueue.dequeue();
+            System.out.println(Arrays.toString(marshalledData));
             String unmarshalledData = unmarshall(marshalledData);
 
+            System.out.println("receiving " + unmarshalledData);
             Matcher matcher = messagePattern.matcher(unmarshalledData);
             matcher.matches();
 

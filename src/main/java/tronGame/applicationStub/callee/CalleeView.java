@@ -1,8 +1,8 @@
-package trongame.applicationStub.callee;
+package tronGame.applicationStub.callee;
 
 import com.google.gson.Gson;
 import javafx.application.Platform;
-import trongame.view.IGameView;
+import tronGame.view.IGameView;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

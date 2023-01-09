@@ -1,8 +1,7 @@
-package trongame.model;
+package tronGame.model;
 
 import config.Config;
-import trongame.controller.IGameController;
-import trongame.controller.IPublisher;
+import tronGame.controller.IGameController;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,17 +10,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TronModel implements IGameModel {
     private int numberOfPlayers;
     private final int[][] gameBoard = new int[Config.ROWS][Config.COLUMNS];
-    List<Integer> listOfPlayers;
-    IGameController gameController;
-    IPublisher publisher;
+    private List<Integer> listOfPlayers;
+    private IGameController gameController;
 
-    Map<Integer, Integer> validDirectionMap;
+    private Map<Integer, Integer> validDirectionMap;
 
-    Map<Integer, int[]> playerNumberBikePositionDirection;
+    private Map<Integer, int[]> playerNumberBikePositionDirection;
 
-    public TronModel(IGameController gameController, IPublisher publisher) {
+    public TronModel(IGameController gameController) {
         this.gameController = gameController;
-        this.publisher = publisher;
     }
 
     @Override
@@ -31,7 +28,7 @@ public class TronModel implements IGameModel {
         playerNumberBikePositionDirection = new HashMap<>();
         validDirectionMap = new HashMap<>();
         clearBoard();
-        initPlayers();
+        initStartingPositions();
         setStartingPositions();
     }
 
@@ -48,11 +45,7 @@ public class TronModel implements IGameModel {
         updateGameScreen();
     }
 
-    private void initPlayers() {
-        setFairStartingPos();
-    }
-
-    private void setFairStartingPos() {
+    private void initStartingPositions() {
         // x,y,direction
         List<int[]> playerPos = new ArrayList<>();
         playerPos.add(new int[]{gameBoard[0].length - ((Double) (gameBoard[0].length * 0.8)).intValue(), gameBoard.length - ((Double) (gameBoard.length * 0.8)).intValue(), Config.DOWN});
@@ -76,7 +69,7 @@ public class TronModel implements IGameModel {
     }
 
     private void updateGameScreen() {
-        gameController.updateGameUI(playerNumberBikePositionDirection);
+        gameController.updateViews(playerNumberBikePositionDirection);
     }
 
     private void deletePlayer(int playerNumber) {
@@ -84,13 +77,13 @@ public class TronModel implements IGameModel {
         for (int i = 0; i < gameBoard.length; i++) {
             for (int j = 0; j < gameBoard[0].length; j++) {
                 if (gameBoard[i][j] == playerNumber) {
-                    playerPositions.add(i);
                     playerPositions.add(j);
+                    playerPositions.add(i);
                     gameBoard[i][j] = 0;
                 }
             }
         }
-        gameController.deletePlayer(playerPositions);
+        gameController.deletePlayerFromViews(playerPositions);
     }
 
     private void updatePlayerPositions() {
@@ -134,11 +127,13 @@ public class TronModel implements IGameModel {
     }
 
     private boolean foundWinner() {
-        return playerNumberBikePositionDirection.size() == 0;
+        return false;
+//        return playerNumberBikePositionDirection.size() == 2;
     }
 
     private boolean draw() {
-        return playerNumberBikePositionDirection.isEmpty();
+        return false;
+//        return playerNumberBikePositionDirection.size() == 2;
     }
 
     private boolean isValidDirection(int playerNumber, int newDirection) {
@@ -234,10 +229,5 @@ public class TronModel implements IGameModel {
                 gameBoard[i][j] = 0;
             }
         }
-    }
-
-    @Override
-    public void loadConfig() {
-
     }
 }

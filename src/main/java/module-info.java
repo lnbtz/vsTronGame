@@ -6,6 +6,6 @@ module com.example.vstron {
     requires com.google.gson;
     requires javatuples;
 
-    opens trongame to javafx.fxml;
-    exports trongame;
+    opens tronGame to javafx.fxml;
+    exports tronGame;
 }

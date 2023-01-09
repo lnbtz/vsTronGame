@@ -1,4 +1,4 @@
-package trongame.view.screens;
+package tronGame.view.screens;
 
 import config.Config;
 import javafx.scene.control.Label;
@@ -9,8 +9,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import trongame.controller.IGameController;
-import trongame.view.IGameView;
+import tronGame.controller.IGameController;
+import tronGame.view.IGameView;
 
 import java.util.List;
 import java.util.Map;
@@ -116,8 +116,9 @@ public class GameScreen extends VBox {
     }
 
     public void deletePlayer(List<Integer> positions) {
+        System.out.println("list with positions to delete " + positions);
         for (int i = 0; i < positions.size(); i += 2) {
-            renderPosition(Config.DELETE, i, i + 1);
+            renderPosition(Config.GREEN, positions.get(i + 1), positions.get(i));
         }
     }
 

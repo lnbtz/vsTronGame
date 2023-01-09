@@ -1,26 +1,26 @@
-package trongame.controller;
+package tronGame.controller;
 
 import config.Config;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.util.Duration;
-import trongame.model.IGameModel;
-import trongame.model.TronModel;
-import trongame.view.IGameView;
+import tronGame.model.IGameModel;
+import tronGame.model.TronModel;
+import tronGame.view.IGameView;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class TronController implements IGameController, IPublisher {
-    int currentNumberOfPlayers = 0;
-    List<Integer> listOfPlayers = new ArrayList<>();
-    List<IGameView> subscribedViews = new ArrayList<>();
-    TronModel tronModel;
-    Thread timer;
+    private int currentNumberOfPlayers = 0;
+    private List<Integer> listOfPlayers = new ArrayList<>();
+    private List<IGameView> subscribedViews = new ArrayList<>();
+    private IGameModel tronModel;
+    private Thread timer;
 
-    boolean gameOver = false;
-    String outcome;
+    private boolean gameOver = false;
+    private String outcome;
 
     @Override
     public void handleInput(int playerNumber, int input) {
@@ -44,13 +44,13 @@ public class TronController implements IGameController, IPublisher {
 
 
     @Override
-    public void updateGameUI(Map<Integer, int[]> playerNumbersAndPositions) {
+    public void updateViews(Map<Integer, int[]> playerNumbersAndPositions) {
         subscribedViews.forEach(tronView -> tronView.updateGameUI(playerNumbersAndPositions)
         );
     }
 
     @Override
-    public void deletePlayer(List<Integer> playerPositions) {
+    public void deletePlayerFromViews(List<Integer> playerPositions) {
         subscribedViews.forEach(tronView -> tronView.deletePlayer(playerPositions));
     }
 
@@ -139,11 +139,6 @@ public class TronController implements IGameController, IPublisher {
     @Override
     public void setGameModel(IGameModel tronModel) {
         this.tronModel = (TronModel) tronModel;
-    }
-
-    @Override
-    public int getId() {
-        return 0;
     }
 
     @Override

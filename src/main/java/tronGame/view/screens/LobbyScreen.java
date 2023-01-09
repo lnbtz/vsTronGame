@@ -1,4 +1,4 @@
-package trongame.view.screens;
+package tronGame.view.screens;
 
 import config.Config;
 import javafx.geometry.Pos;
@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.layout.Pane;
-import trongame.controller.IGameController;
+import tronGame.controller.IGameController;
 
 public class LobbyScreen extends Pane {
 

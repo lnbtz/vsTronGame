@@ -2,7 +2,7 @@ package config;
 
 public class Config {
     public static final String IP_ADDRESS_NAME_SERVICE = "192.168.2.133";
-    public static final int LOBBY_TIMEOUT = 1;
+    public static final int LOBBY_TIMEOUT = 10;
     public static final long ENDGAME_TIMEOUT = 1;
     public static int viewId = 1;
     public static int controllerId = 0;
@@ -25,9 +25,8 @@ public class Config {
     public static final int DELETE = 0;
     public static final int SQUARE_WIDTH = WIDTH / COLUMNS;
     public static final int SQUARE_HEIGHT = HEIGHT / ROWS;
-
-    public static final int SEND_TCP = 1;
     public static final int SEND_UDP = 0;
+    public static final int SEND_TCP = 1;
     public static final int LEFT = 1;
     public static final int RIGHT = 2;
     public static final int UP = 3;
@@ -36,6 +35,6 @@ public class Config {
     public static final int GO_TO_GAME = 6;
     public static final int GO_TO_END = 7;
     public static final int GO_TO_START = 8;
-    public static final int DELAY = 40;
+    public static final int DELAY = 50;
     public static final int NUMBER_OF_PLAYERS = 2;
 }

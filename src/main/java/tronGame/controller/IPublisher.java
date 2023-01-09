@@ -1,6 +1,6 @@
-package trongame.controller;
+package tronGame.controller;
 
-import trongame.view.IGameView;
+import tronGame.view.IGameView;
 
 public interface IPublisher {
 

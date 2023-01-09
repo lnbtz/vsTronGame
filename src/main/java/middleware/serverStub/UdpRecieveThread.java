@@ -27,6 +27,7 @@ public class UdpRecieveThread implements Runnable{
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             try {
                 udpSocket.receive(packet);
+
                 recieveQueue.enqueue(packet.getData());
             } catch (IOException e) {
                 e.printStackTrace();

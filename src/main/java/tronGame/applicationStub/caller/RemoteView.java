@@ -1,9 +1,9 @@
-package trongame.applicationStub.caller;
+package tronGame.applicationStub.caller;
 
 import com.google.gson.Gson;
 import config.Config;
 import middleware.clientStub.IClientStub;
-import trongame.view.IGameView;
+import tronGame.view.IGameView;
 
 import java.util.List;
 import java.util.Map;

@@ -1,11 +1,11 @@
-package trongame.view.screens;
+package tronGame.view.screens;
 
 import config.Config;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import trongame.controller.IGameController;
-import trongame.controller.IPublisher;
-import trongame.view.IGameView;
+import tronGame.controller.IGameController;
+import tronGame.controller.IPublisher;
+import tronGame.view.IGameView;
 
 public class StartScreen extends Pane {
     IGameController controller;

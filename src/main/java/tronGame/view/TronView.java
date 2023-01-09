@@ -1,13 +1,13 @@
-package trongame.view;
+package tronGame.view;
 
 import config.Config;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import trongame.controller.IGameController;
-import trongame.view.screens.EndScreen;
-import trongame.view.screens.GameScreen;
-import trongame.view.screens.LobbyScreen;
-import trongame.view.screens.StartScreen;
+import tronGame.controller.IGameController;
+import tronGame.view.screens.EndScreen;
+import tronGame.view.screens.GameScreen;
+import tronGame.view.screens.LobbyScreen;
+import tronGame.view.screens.StartScreen;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,8 +18,8 @@ public class TronView implements IGameView {
     private Scene lobbyScene;
     private Scene endScene;
     private Scene gameScene;
-    IGameController tronController;
-    Stage window;
+    private IGameController tronController;
+    private Stage window;
 
     private GameScreen gameScreen;
     private StartScreen startScreen;
@@ -27,7 +27,7 @@ public class TronView implements IGameView {
 
     private LobbyScreen lobbyScreen;
     private EndScreen endScreen;
-    int id;
+    private int id;
 
     public TronView(Stage primaryStage, IGameController controller) throws IOException {
         this.tronController = controller;

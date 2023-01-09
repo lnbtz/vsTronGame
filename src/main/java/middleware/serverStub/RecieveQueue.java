@@ -1,5 +1,6 @@
 package middleware.serverStub;
 
+import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -7,7 +8,7 @@ public class RecieveQueue {
     public BlockingQueue<byte[]> messages;
 
     public RecieveQueue(){
-        this.messages = new LinkedBlockingQueue<>(200);
+        this.messages = new LinkedBlockingQueue<>(2000);
     }
 
     public byte[] dequeue() {

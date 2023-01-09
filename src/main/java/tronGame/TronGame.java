@@ -1,4 +1,4 @@
-package trongame;
+package tronGame;
 
 import config.Config;
 import javafx.stage.Stage;
@@ -7,17 +7,17 @@ import middleware.clientStub.SendQueue;
 import middleware.clientStub.TcpSendThread;
 import middleware.clientStub.UdpSendThread;
 import middleware.nameService.NameServiceImpl;
-import middleware.NameServiceHelper;
+import middleware.nameServiceHelper.NameServiceHelper;
 import middleware.serverStub.RecieveQueue;
 import middleware.serverStub.ServerStubImpl;
 import middleware.serverStub.TcpReceiveThread;
 import middleware.serverStub.UdpRecieveThread;
-import trongame.applicationStub.callee.CalleeController;
-import trongame.applicationStub.callee.CalleeView;
-import trongame.applicationStub.caller.RemoteController;
-import trongame.controller.TronController;
-import trongame.model.TronModel;
-import trongame.view.TronView;
+import tronGame.applicationStub.callee.CalleeController;
+import tronGame.applicationStub.callee.CalleeView;
+import tronGame.applicationStub.caller.RemoteController;
+import tronGame.controller.TronController;
+import tronGame.model.TronModel;
+import tronGame.view.TronView;
 
 import java.io.IOException;
 
@@ -73,7 +73,7 @@ public class TronGame {
 
         // controller
         TronController tronController = new TronController();
-        TronModel tronModel = new TronModel(tronController, tronController);
+        TronModel tronModel = new TronModel(tronController);
         tronController.setGameModel(tronModel);
 
 
@@ -129,7 +129,7 @@ public class TronGame {
 
         // controller
         TronController tronController = new TronController();
-        TronModel tronModel = new TronModel(tronController, tronController);
+        TronModel tronModel = new TronModel(tronController);
         tronController.setGameModel(tronModel);
 
         CalleeController calleeController = new CalleeController(tronController, tronController, clientStub);

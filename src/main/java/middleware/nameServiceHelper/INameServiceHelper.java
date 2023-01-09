@@ -1,4 +1,4 @@
-package middleware;
+package middleware.nameServiceHelper;
 
 import java.net.InetAddress;
 
