@@ -11,7 +11,8 @@ import middleware.nameServiceHelper.NameServiceHelper;
 import middleware.serverStub.RecieveQueue;
 import middleware.serverStub.ServerStubImpl;
 import middleware.serverStub.TcpReceiveThread;
-import middleware.serverStub.UdpRecieveThread;
+import middleware.serverStub.UdpReceiveThread;
+import middleware.serverStub2.ServerStub;
 import tronGame.applicationStub.callee.CalleeController;
 import tronGame.applicationStub.callee.CalleeView;
 import tronGame.applicationStub.caller.RemoteController;
@@ -60,15 +61,16 @@ public class TronGame {
         UdpSendThread udpSender = new UdpSendThread(sendQueue);
         Thread udpSendThread = new Thread(udpSender);
         udpSendThread.start();
-        UdpRecieveThread udpReceiver = new UdpRecieveThread(recieveQueue);
+        UdpReceiveThread udpReceiver = new UdpReceiveThread(recieveQueue);
         Thread udpReceiveThread = new Thread(udpReceiver);
         udpReceiveThread.start();
 
         //Stubs
         ClientStubImpl clientStub = new ClientStubImpl(nameServiceHelper, sendQueue);
-        ServerStubImpl serverStub = new ServerStubImpl(recieveQueue, nameServiceHelper);
-        Thread serverStubThread = new Thread(serverStub);
-        serverStubThread.start();
+//        ServerStubImpl serverStub = new ServerStubImpl(recieveQueue, nameServiceHelper);
+        ServerStub serverStub = new ServerStub(nameServiceHelper);
+//        Thread serverStubThread = new Thread(serverStub);
+//        serverStubThread.start();
 
 
         // controller
@@ -108,24 +110,24 @@ public class TronGame {
         TcpSendThread tcpSender = new TcpSendThread(sendQueue);
         Thread tcpSendThread = new Thread(tcpSender);
         tcpSendThread.start();
-        TcpReceiveThread tcpReceiver = new TcpReceiveThread(recieveQueue);
-        Thread tcpReceiveThread = new Thread(tcpReceiver);
-        tcpReceiveThread.start();
+//        TcpReceiveThread tcpReceiver = new TcpReceiveThread(recieveQueue);
+//        Thread tcpReceiveThread = new Thread(tcpReceiver);
+//        tcpReceiveThread.start();
 
         //Send/Receive Threads
         UdpSendThread udpSender = new UdpSendThread(sendQueue);
         Thread udpSendThread = new Thread(udpSender);
         udpSendThread.start();
-        UdpRecieveThread udpReceiver = new UdpRecieveThread(recieveQueue);
-        Thread udpReceiveThread = new Thread(udpReceiver);
-        udpReceiveThread.start();
+//        UdpReceiveThread udpReceiver = new UdpReceiveThread(recieveQueue);
+//        Thread udpReceiveThread = new Thread(udpReceiver);
+//        udpReceiveThread.start();
 
         //Stubs
         ClientStubImpl clientStub = new ClientStubImpl(nameServiceHelper, sendQueue);
-        ServerStubImpl serverStub = new ServerStubImpl(recieveQueue, nameServiceHelper);
-        Thread serverStubThread = new Thread(serverStub);
-        serverStubThread.start();
-
+//        ServerStubImpl serverStub = new ServerStubImpl(recieveQueue, nameServiceHelper);
+//        Thread serverStubThread = new Thread(serverStub);
+//        serverStubThread.start();
+        ServerStub serverStub = new ServerStub(nameServiceHelper);
 
         // controller
         TronController tronController = new TronController();

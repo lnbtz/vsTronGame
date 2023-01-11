@@ -22,7 +22,6 @@ public class TcpSendThread implements Runnable{
             Pair<InetAddress, byte[]> msg = sendQueue.dequeueTcp();
             InetAddress ip = msg.getValue0();
             byte[] data = msg.getValue1();
-
             try{
                 Socket clientSocket = new Socket(ip, tcpPort);
                 OutputStream out = clientSocket.getOutputStream();

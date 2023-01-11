@@ -3,9 +3,10 @@ package middleware.clientStub;
 import middleware.nameServiceHelper.INameServiceHelper;
 import org.javatuples.Pair;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
-import java.util.Arrays;
 
 public class ClientStubImpl implements IClientStub {
     private INameServiceHelper nameServiceHelper;
@@ -31,10 +32,8 @@ public class ClientStubImpl implements IClientStub {
         } else {
             // message = <objectID>:<methodName>:data
             String message = objectId + ":" + methodName + ":" + data;
-            System.out.println("sending " + message);
             //marshall
             byte[] marshalledData = marshall(message);
-            System.out.println("sending marshalled data " + Arrays.toString(marshalledData));
             //send
             send(hostAddress, marshalledData, sendMethod);
         }
