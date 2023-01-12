@@ -1,5 +1,6 @@
 package middleware.serverStub;
 
+import middleware.serverStub2.IServerStub;
 import tronGame.applicationStub.callee.ICallee;
 import middleware.nameServiceHelper.INameServiceHelper;
 

@@ -1,4 +1,4 @@
-package middleware.serverStub;
+package middleware.serverStub2;
 
 import tronGame.applicationStub.callee.ICallee;
 

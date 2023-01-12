@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 
 public class WorkerRunnableTCP implements Runnable {
 
-    Pattern messagePattern = Pattern.compile("(.*?):(.*?):(.*)");
-    private Socket clientSocket;
-    Map<Integer, ICallee> calleeMap;
+    private final Pattern messagePattern = Pattern.compile("(.*?):(.*?):(.*)");
+    private final Socket clientSocket;
+    private final Map<Integer, ICallee> calleeMap;
 
     public WorkerRunnableTCP(Socket clientSocket, Map<Integer, ICallee> calleeMap) {
         this.clientSocket = clientSocket;

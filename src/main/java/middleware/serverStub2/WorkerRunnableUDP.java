@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
 
 public class WorkerRunnableUDP implements Runnable {
 
-    Pattern messagePattern = Pattern.compile("(.*?):(.*?):(.*)");
-    DatagramPacket packet;
-    Map<Integer, ICallee> calleeMap;
+    private final Pattern messagePattern = Pattern.compile("(.*?):(.*?):(.*)");
+    private final DatagramPacket packet;
+    private final Map<Integer, ICallee> calleeMap;
 
     public WorkerRunnableUDP(DatagramPacket packet, Map<Integer, ICallee> calleeMap) {
         this.packet = packet;
