@@ -35,6 +35,6 @@ public class Config {
     public static final int GO_TO_GAME = 6;
     public static final int GO_TO_END = 7;
     public static final int GO_TO_START = 8;
-    public static final int DELAY = 50;
+    public static final int DELAY = 10;
     public static final int NUMBER_OF_PLAYERS = 2;
 }

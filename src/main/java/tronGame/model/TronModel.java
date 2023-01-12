@@ -127,13 +127,11 @@ public class TronModel implements IGameModel {
     }
 
     private boolean foundWinner() {
-        return false;
-//        return playerNumberBikePositionDirection.size() == 2;
+        return playerNumberBikePositionDirection.size() == 1;
     }
 
     private boolean draw() {
-        return false;
-//        return playerNumberBikePositionDirection.size() == 2;
+        return playerNumberBikePositionDirection.isEmpty();
     }
 
     private boolean isValidDirection(int playerNumber, int newDirection) {
